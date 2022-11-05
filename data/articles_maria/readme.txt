@@ -1,0 +1,1 @@
+This folder was provided by Maria Salguero data from her Mexico's Femicides Map. The utilization of this data should be acknowledged by her.

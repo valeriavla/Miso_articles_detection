@@ -1,0 +1,86 @@
+[
+  {
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "Authors",
+    "section": "",
+    "text": "Josh Weiye Valeria"
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Revictimization: a misogyny detection problem",
+    "section": "",
+    "text": "The responsibility of the communication platforms should be to objectively inform the public without attempting to influence their opinions, but so far, the press has been incapable of doing this. For example, Mexican media has stated, in news articles of occurred femicides, comments such as “It was her fault,” “Her parents should have picked her up,” “Surely she set herself on fire,” “Look how she was dressed up that day,” “She might have fallen and bumped her head” [1].\nThe media portrays women victims of violence as stigmatized, guilty, untrustworthy, or sexualized. This method of data governance creates a sense of revictimization in the survivors’ or witnesses’ families and fosters another form of violence against women: media violence.\nAn analysis done by [2] shows that out of 1,300 reports of violence against women published by more than 20 media platforms from Argentina, 897 revictimized the sufferer women. Such approaches present dangerous interpretive frameworks that justify violent acts, perpetrate a misogynistic and discriminative culture, or even jeopardize judicial investigations."
+  },
+  {
+    "objectID": "index.html#data-labeling",
+    "href": "index.html#data-labeling",
+    "title": "Revictimization: a misogyny detection problem",
+    "section": "Data labeling:",
+    "text": "Data labeling:\nThe text from each article will be split into sentences for them to be labeled as “misogynistic” or “non-misogynistic.” The article will be classified as misogynistic if a paragraph contains one misogynistic sentence."
+  },
+  {
+    "objectID": "index.html#data-cleaning",
+    "href": "index.html#data-cleaning",
+    "title": "Revictimization: a misogyny detection problem",
+    "section": "Data cleaning:",
+    "text": "Data cleaning:\nThe text will be cleaned through the standard NLP cleaning task, such as punctuation, numbers, hypertext and stop-words removals, and lowercase transformation for all characters.\nBased on the state-of-the-art results, lemmatization and stemming techniques have not improved the performance of sentiment classification in texts in Spanish; thus, multiple sets will be generated to test the effects of those techniques."
+  },
+  {
+    "objectID": "index.html#data-modeling",
+    "href": "index.html#data-modeling",
+    "title": "Revictimization: a misogyny detection problem",
+    "section": "Data modeling:",
+    "text": "Data modeling:\nDifferent word modeling techniques that have shown exemplary performance in Sentiment Analysis will be implemented. The work aims to do an exploratory analysis of word modeling techniques results for misogyny detection in news articles that revictimize women.\nTo do so, representations that lose semantic representation, such as BoW, will be implemented with techniques to solve problems, i.e., TF-IDF. Models that preserve semantic representation will also be tested, such as BERT and Word2Vec."
+  },
+  {
+    "objectID": "index.html#data-classification",
+    "href": "index.html#data-classification",
+    "title": "Revictimization: a misogyny detection problem",
+    "section": "Data classification:",
+    "text": "Data classification:\nMultiple data sets with tweets in Spanish, posted on México, and labeled had been gathered, creating a balanced data set of 10,000 tweets. A small dataset of articles will be manually-labeled to fine-tune a BERT model with the tweets dataset and evaluate its performance by classifying news articles."
+  },
+  {
+    "objectID": "index.html#evaluation-criteria",
+    "href": "index.html#evaluation-criteria",
+    "title": "Revictimization: a misogyny detection problem",
+    "section": "Evaluation criteria:",
+    "text": "Evaluation criteria:\nSince we have labeled data, results will be evaluated in terms of accuracy, precision, and a deep understanding of how the classifier is detecting both subtle and apparent misogyny by testing it with text examples labeled as “subtle” and “clear” misogyny."
+  },
+  {
+    "objectID": "about.html#weiye",
+    "href": "about.html#weiye",
+    "title": "Authors",
+    "section": "Weiye",
+    "text": "Weiye"
+  },
+  {
+    "objectID": "about.html#valeria-vera-lagos-vv188georgetown.edu",
+    "href": "about.html#valeria-vera-lagos-vv188georgetown.edu",
+    "title": "Authors",
+    "section": "Valeria Vera Lagos vv188@georgetown.edu",
+    "text": "Valeria Vera Lagos vv188@georgetown.edu"
+  },
+  {
+    "objectID": "about.html#weiye-zhu",
+    "href": "about.html#weiye-zhu",
+    "title": "Authors",
+    "section": "Weiye Zhu",
+    "text": "Weiye Zhu"
+  },
+  {
+    "objectID": "index.html#data-collection",
+    "href": "index.html#data-collection",
+    "title": "Revictimization: a misogyny detection problem",
+    "section": "Data collection:",
+    "text": "Data collection:\nMaria Salguero is a Mexican activist who has collected multiple femicides articles published in Mexico. Her news and other articles will be manually collected to have a bast dataset."
+  },
+  {
+    "objectID": "index.html#bibliography",
+    "href": "index.html#bibliography",
+    "title": "Revictimization: a misogyny detection problem",
+    "section": "Bibliography",
+    "text": "Bibliography\n[1] “Fue su culpa: por qué es vital evitar la revictimización en los casos de feminicidio” https://www.infobae.com/america/mexico/2022/09/05/fue-su-culpa-por-que-es-vital-evitar-la-revictimizacion-en-los-casos-de-feminicidio/\n[2] “Medios revictimizantes”. Palacios, Claudia, https://www.eltiempo.com/opinion/columnistas/claudia-palacios/medios-revictimizantes-observatorio-de-medios-y-genero-149406\n[3] Chen, a. W. Global journal of advanced engineering technologies and sciences sentiment analysis of news articles and its comments: A Natural Language Processing Application, http://gjaets.com/Issues%20PDF/Archive-2018/May-2018/3.pdf"
+  }
+]

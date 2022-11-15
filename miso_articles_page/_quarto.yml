@@ -1,0 +1,22 @@
+project:
+  type: website
+
+website:
+  title: "Revictimization: a misogyny detection problem"
+  navbar:
+    left:
+      - href: index.qmd
+        text: Home
+      - about.qmd
+
+format:
+  html:
+    css: styles.css
+    theme: 
+    - zephyr
+    - custom.scss
+     
+    toc: true
+
+
+

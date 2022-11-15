@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.1.251">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Revictimization: a misogyny detection problem -</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a class="navbar-brand" href="./index.html">
+    <span class="navbar-title">Revictimization: a misogyny detection problem</span>
+    </a>
+  </div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link active" href="./index.html" aria-current="page">Home</a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./about.html">Authors</a>
+  </li>  
+</ul>
+              <div id="quarto-search" class="" title="Search"></div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#problem" id="toc-problem" class="nav-link active" data-scroll-target="#problem">Problem</a></li>
+  <li><a href="#existing-approaches" id="toc-existing-approaches" class="nav-link" data-scroll-target="#existing-approaches">Existing approaches</a></li>
+  <li><a href="#proposal" id="toc-proposal" class="nav-link" data-scroll-target="#proposal">Proposal</a></li>
+  <li><a href="#methods-to-achieve-the-objective" id="toc-methods-to-achieve-the-objective" class="nav-link" data-scroll-target="#methods-to-achieve-the-objective">Methods to achieve the objective:</a>
+  <ul class="collapse">
+  <li><a href="#data-collection" id="toc-data-collection" class="nav-link" data-scroll-target="#data-collection">Data collection:</a></li>
+  <li><a href="#data-labeling" id="toc-data-labeling" class="nav-link" data-scroll-target="#data-labeling">Data labeling:</a></li>
+  <li><a href="#data-cleaning" id="toc-data-cleaning" class="nav-link" data-scroll-target="#data-cleaning">Data cleaning:</a></li>
+  <li><a href="#data-modeling" id="toc-data-modeling" class="nav-link" data-scroll-target="#data-modeling">Data modeling:</a></li>
+  <li><a href="#data-classification" id="toc-data-classification" class="nav-link" data-scroll-target="#data-classification">Data classification:</a></li>
+  <li><a href="#evaluation-criteria" id="toc-evaluation-criteria" class="nav-link" data-scroll-target="#evaluation-criteria">Evaluation criteria:</a></li>
+  </ul></li>
+  <li><a href="#bibliography" id="toc-bibliography" class="nav-link" data-scroll-target="#bibliography">Bibliography</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+
+
+<section id="problem" class="level1">
+<h1>Problem</h1>
+<p>The responsibility of the communication platforms should be to objectively inform the public without attempting to influence their opinions, but so far, the press has been incapable of doing this. For example, Mexican media has stated, in news articles of occurred femicides, comments such as “It was her fault,” “Her parents should have picked her up,” “Surely she set herself on fire,” “Look how she was dressed up that day,” “She might have fallen and bumped her head” [1].</p>
+<p>The media portrays women victims of violence as stigmatized, guilty, untrustworthy, or sexualized. This method of data governance creates a sense of revictimization in the survivors’ or witnesses’ families and fosters another form of violence against women: media violence.</p>
+<p>An analysis done by [2] shows that out of 1,300 reports of violence against women published by more than 20 media platforms from Argentina, 897 revictimized the sufferer women. Such approaches present dangerous interpretive frameworks that justify violent acts, perpetrate a misogynistic and discriminative culture, or even jeopardize judicial investigations.</p>
+</section>
+<section id="existing-approaches" class="level1">
+<h1>Existing approaches</h1>
+<p>Automatic detection of misogyny is a complex Sentiment Analysis task. It is difficult to distinguish it from sexist or aggressive language towards women, given that it can be subtle and dependent on the social context where it takes place.</p>
+<p>Only now, most of the analyses of this problem are focused on English texts, and the small amount of Spanish texts research needs to distinguish the text origin between Spanish-spoken countries. Therefore, cultural and linguistic differences can complicate the classification. Additionally, multiple approaches have generated data sets of tweets in Spanish labeled as misogynistic or not. However, those reduce the misogynistic detection to short texts since tweets can only hold 280 characters.</p>
+<p>Finally, Sentiment Analysis detection of news articles has been performed in the past [3], focusing on “negative” or “positive” sentiment. However, no detection of misogyny in news articles has been performed in any language.</p>
+</section>
+<section id="proposal" class="level1">
+<h1>Proposal</h1>
+<p>Train multiple supervised models to classify misogynistic and non-misogynistic texts obtained from news articles from Mexico in Spanish after applying different transforming and modeling techniques to those and analyzing their results. Which will be evaluated in terms of accuracy, precision, and a deep understanding of how the classifier detects both subtle and apparent misogyny.</p>
+</section>
+<section id="methods-to-achieve-the-objective" class="level1">
+<h1>Methods to achieve the objective:</h1>
+<section id="data-collection" class="level2">
+<h2 class="anchored" data-anchor-id="data-collection">Data collection:</h2>
+<p>Maria Salguero is a Mexican activist who has collected multiple femicides articles published in Mexico. Her news and other articles will be manually collected to have a bast dataset.</p>
+</section>
+<section id="data-labeling" class="level2">
+<h2 class="anchored" data-anchor-id="data-labeling">Data labeling:</h2>
+<p>The text from each article will be split into sentences for them to be labeled as “misogynistic” or “non-misogynistic.” The article will be classified as misogynistic if a paragraph contains one misogynistic sentence.</p>
+</section>
+<section id="data-cleaning" class="level2">
+<h2 class="anchored" data-anchor-id="data-cleaning">Data cleaning:</h2>
+<p>The text will be cleaned through the standard NLP cleaning task, such as punctuation, numbers, hypertext and stop-words removals, and lowercase transformation for all characters.</p>
+<p>Based on the state-of-the-art results, lemmatization and stemming techniques have not improved the performance of sentiment classification in texts in Spanish; thus, multiple sets will be generated to test the effects of those techniques.</p>
+</section>
+<section id="data-modeling" class="level2">
+<h2 class="anchored" data-anchor-id="data-modeling">Data modeling:</h2>
+<p>Different word modeling techniques that have shown exemplary performance in Sentiment Analysis will be implemented. The work aims to do an exploratory analysis of word modeling techniques results for misogyny detection in news articles that revictimize women.</p>
+<p>To do so, representations that lose semantic representation, such as BoW, will be implemented with techniques to solve problems, i.e., TF-IDF. Models that preserve semantic representation will also be tested, such as BERT and Word2Vec.</p>
+</section>
+<section id="data-classification" class="level2">
+<h2 class="anchored" data-anchor-id="data-classification">Data classification:</h2>
+<p>Multiple data sets with tweets in Spanish, posted on México, and labeled had been gathered, creating a balanced data set of 10,000 tweets. A small dataset of articles will be manually-labeled to fine-tune a BERT model with the tweets dataset and evaluate its performance by classifying news articles.</p>
+</section>
+<section id="evaluation-criteria" class="level2">
+<h2 class="anchored" data-anchor-id="evaluation-criteria">Evaluation criteria:</h2>
+<p>Since we have labeled data, results will be evaluated in terms of accuracy, precision, and a deep understanding of how the classifier is detecting both subtle and apparent misogyny by testing it with text examples labeled as “subtle” and “clear” misogyny.</p>
+</section>
+</section>
+<section id="bibliography" class="level1">
+<h1>Bibliography</h1>
+<p>[1] “Fue su culpa: por qué es vital evitar la revictimización en los casos de feminicidio” https://www.infobae.com/america/mexico/2022/09/05/fue-su-culpa-por-que-es-vital-evitar-la-revictimizacion-en-los-casos-de-feminicidio/</p>
+<p>[2] “Medios revictimizantes”. Palacios, Claudia, https://www.eltiempo.com/opinion/columnistas/claudia-palacios/medios-revictimizantes-observatorio-de-medios-y-genero-149406</p>
+<p>[3] Chen, a. W. Global journal of advanced engineering technologies and sciences sentiment analysis of news articles and its comments: A Natural Language Processing Application, http://gjaets.com/Issues%20PDF/Archive-2018/May-2018/3.pdf</p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    setTimeout(function() {
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>

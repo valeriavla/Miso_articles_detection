@@ -37,7 +37,7 @@ Different word modeling techniques that have shown exemplary performance in Sent
  
 To do so, representations that lose semantic representation, such as BoW, will be implemented with techniques to solve problems, i.e., TF-IDF. Models that preserve semantic representation will also be tested, such as BERT and Word2Vec.
  
-## Data classification:
+## Classification:
 Multiple data sets with tweets in Spanish, posted on México, and labeled had been gathered, creating a balanced data set of 10,000 tweets. A small dataset of articles will be manually-labeled to fine-tune a BERT model with the tweets dataset and evaluate its performance by classifying news articles.
  
 ## Evaluation criteria:

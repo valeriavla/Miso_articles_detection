@@ -1,0 +1,9 @@
+---
+title: "Classification"
+---
+
+In terms of classification this work will experiment on:
+
+- Training a supervised classifier trained with a labeled set of tweets to predict if a tweet is misogynistic or not. Test the classifier with a set of tweets not used for training and test it with a small set of new articles to evaluate its precision. The objective is to find out if training models with tweets can be useful for different text entries.
+
+- In terms of models, as a baseline a NB model will be implemented to compare the results using BERT.

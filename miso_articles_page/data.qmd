@@ -1,0 +1,13 @@
+---
+title: "Data Obtention and Processing"
+---
+
+The project is work in progress, the implementation Data will be sectioned into:
+
+- Data collection: 
+ 
+- Data labeling:
+ 
+- Data cleaning:
+
+- Data modeling:

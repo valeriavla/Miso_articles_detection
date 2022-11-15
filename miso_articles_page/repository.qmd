@@ -1,0 +1,5 @@
+---
+title: "Repository"
+---
+
+Besides data whose ownership is not ours, the project's scripts and data sets are open at our [Github Repository](https://github.com/valeriavla/Miso_articles_detection)

@@ -82,5 +82,33 @@
     "title": "Revictimization: a misogyny detection problem",
     "section": "Bibliography",
     "text": "Bibliography\n[1] “Fue su culpa: por qué es vital evitar la revictimización en los casos de feminicidio” https://www.infobae.com/america/mexico/2022/09/05/fue-su-culpa-por-que-es-vital-evitar-la-revictimizacion-en-los-casos-de-feminicidio/\n[2] “Medios revictimizantes”. Palacios, Claudia, https://www.eltiempo.com/opinion/columnistas/claudia-palacios/medios-revictimizantes-observatorio-de-medios-y-genero-149406\n[3] Chen, a. W. Global journal of advanced engineering technologies and sciences sentiment analysis of news articles and its comments: A Natural Language Processing Application, http://gjaets.com/Issues%20PDF/Archive-2018/May-2018/3.pdf"
+  },
+  {
+    "objectID": "repository.html",
+    "href": "repository.html",
+    "title": "Repository",
+    "section": "",
+    "text": "Besides data whose ownership is not ours, the project’s scripts and data sets are open at our Github Repository"
+  },
+  {
+    "objectID": "classification.html",
+    "href": "classification.html",
+    "title": "Classification",
+    "section": "",
+    "text": "Training a supervised classifier trained with a labeled set of tweets to predict if a tweet is misogynistic or not. Test the classifier with a set of tweets not used for training and test it with a small set of new articles to evaluate its precision. The objective is to find out if training models with tweets can be useful for different text entries.\nIn terms of models, as a baseline a NB model will be implemented to compare the results using BERT."
+  },
+  {
+    "objectID": "data.html",
+    "href": "data.html",
+    "title": "Data Obtention and Processing",
+    "section": "",
+    "text": "Data collection:\nData labeling:\nData cleaning:\nData modeling:"
+  },
+  {
+    "objectID": "index.html#classification",
+    "href": "index.html#classification",
+    "title": "Revictimization: a misogyny detection problem",
+    "section": "Classification:",
+    "text": "Classification:\nMultiple data sets with tweets in Spanish, posted on México, and labeled had been gathered, creating a balanced data set of 10,000 tweets. A small dataset of articles will be manually-labeled to fine-tune a BERT model with the tweets dataset and evaluate its performance by classifying news articles."
   }
 ]

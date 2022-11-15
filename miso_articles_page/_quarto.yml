@@ -8,7 +8,21 @@ website:
       - href: index.qmd
         text: Home
       - about.qmd
-
+      - repository.qmd
+      - sidebar:data
+      - sidebar:classification
+  sidebar:
+    - id: data
+      title: "Data"
+      contents:
+      - data.qmd
+      - data_collection.qmd
+      - data_cleaning.qmd
+      - data_labeling.qmd
+    - id: classification
+      title: "Classification"
+      contents:
+      - classification.qmd
 format:
   html:
     css: styles.css

@@ -1,3 +1,170 @@
 ---
 title: " Data cleaning:"
+
 ---
+
+We have our original dataset labeled_set.csv with 2 columns, "text" and "label", "text" column is the tweets we have gathered, and value 0 and 1 in "label" column represent the non misogynistic tweet and misogynistic tweet respetively. 
+
+Right now the dataset is unuseble because there are way to many "noises" in our dataset, i.e. there are a lot of special characters, emojis, and website links in our text data, so we need to clean (remove) these "noises" before doing further analysis.
+
+Here are the data cleaning process step by step:
+
+- Import necessary libraries and packages
+```{python}
+import pandas as pd
+import numpy as np
+
+import nltk; 
+nltk.download('punkt')
+nltk.download('averaged_perceptron_tagger')
+nltk.download('wordnet')
+nltk.download('stopwords')
+
+import matplotlib.pyplot as plt
+%matplotlib inline  
+import nltk
+from nltk import word_tokenize, sent_tokenize
+from nltk.corpus import stopwords
+from nltk.stem import LancasterStemmer, WordNetLemmatizer, PorterStemmer
+from wordcloud import WordCloud, STOPWORDS
+from textblob import TextBlob
+
+from nltk.sentiment import SentimentIntensityAnalyzer
+```
+
+- Load the original dataset
+
+```{python}
+tweets= pd.read_csv('../code/labeled_set.csv', encoding = "ISO-8859-1")
+tweets.head(10)
+```
+
+- Remove empty space in columns if there is any. Rename the column name and check the data type of each column
+
+```{python}
+tweets.columns = tweets.columns.str.replace(' ', '')
+tweets.rename(columns={'text': 'tweets'}, inplace=True)
+tweets.dtypes
+tweets.head(5)
+```
+
+- Remove the "noises"
+```{python}
+tweets['tweets'] = tweets['tweets'].str.replace('[^\w\s]', '') # Remove all special symbols & characters
+tweets['tweets'] = tweets['tweets'].str.replace('_', '') # Remove all underscores
+tweets['tweets'] = tweets['tweets'].str.replace('http[^\s]*',"") # Remove all words that start with "http"
+tweets['tweets'] = tweets['tweets'].astype(str).str.lower() # Make all words in lower case
+tweets.head(10)
+```
+
+- Save the clean dataset 
+```{python}
+# tweets.to_csv('cleaned_tweets.csv')
+# tweets.to_html('cleaned_tweets.html', classes='table table-stripped')
+```
+
+- Now we have the clean dataset so we can do some further analysis and some EDA.
+
+- Tokenization
+
+```{python}
+from nltk.tokenize import RegexpTokenizer
+
+regexp = RegexpTokenizer('\w+')
+
+tweets['tweets_token']=tweets['tweets'].apply(regexp.tokenize)
+tweets.head(10)
+```
+
+- Remove infrequent words. We first change the format of tweets_token to strings and keep only words which are no shorter than 2 letters
+```{python}
+tweets['tweets_string'] = tweets['tweets_token'].apply(lambda x: ' '.join([item for item in x if len(item)>=2]))
+tweets.head(10)
+```
+
+- Create a list of all words
+```{python}
+all_words = ' '.join([word for word in tweets['tweets_string']])
+```
+
+- Tokenize all_words
+```{python}
+tokenized_words = nltk.tokenize.word_tokenize(all_words)
+```
+
+- Create a frequency distribution which records the number of times each word has occurred:
+```{python}
+from nltk.probability import FreqDist
+fdist = FreqDist(tokenized_words)
+fdist
+```
+
+- Now we can use our fdist dictionary to drop words which occur less than a certain amount of times (usually we use a value of 3 or 4).
+```{python}
+tweets['tweets_string_fdist'] = tweets['tweets_token'].apply(lambda x: ' '.join([item for item in x if fdist[item] >= 4 ]))
+
+```
+
+- Lemmatization
+```{python}
+nltk.download('wordnet')
+nltk.download('omw-1.4')
+from nltk.stem import WordNetLemmatizer
+wordnet_lem = WordNetLemmatizer()
+tweets['tweets_string_lem'] = tweets['tweets_string_fdist'].apply(wordnet_lem.lemmatize)
+```
+
+- Check if the columns are equal so we might not need to do the lemmatization
+```{python}
+tweets['is_equal']= (tweets['tweets_string_fdist']==tweets['tweets_string_lem'])
+tweets.is_equal.value_counts()
+```
+
+- Let's create a word cloud to see what are the most frequent words
+```{python}
+all_words_lem = ' '.join([word for word in tweets['tweets_string_lem']])
+
+%matplotlib inline
+import matplotlib.pyplot as plt
+from wordcloud import WordCloud
+
+wordcloud = WordCloud(width=600, 
+                     height=400, 
+                     random_state=2, 
+                     max_font_size=100).generate(all_words_lem)
+
+plt.figure(figsize=(10, 7))
+plt.imshow(wordcloud, interpolation='bilinear')
+plt.axis('off');
+
+```
+
+- Frequency distributions
+```{python}
+nltk.download('punkt')
+from nltk.tokenize import word_tokenize
+from nltk.probability import FreqDist
+
+words = nltk.word_tokenize(all_words_lem)
+fd = FreqDist(words)
+```
+
+- We can list the top 15 most frequent words
+```{python}
+fd.most_common(15)
+fd.tabulate(15)
+```
+
+- Now we can make a plot of the most frequent words
+```{python}
+top_30 = fd.most_common(30)
+
+# Create pandas series to make plotting easier
+fdist = pd.Series(dict(top_30))
+import seaborn as sns
+sns.set_theme(style="ticks")
+
+tweets_top30_word_barplot = sns.barplot(y=fdist.index, x=fdist.values, color='pink')
+
+```
+

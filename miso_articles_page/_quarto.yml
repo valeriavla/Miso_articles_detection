@@ -17,8 +17,8 @@ website:
       contents:
       - data.qmd
       - data_collection.qmd
-      - data_cleaning.qmd
       - data_labeling.qmd
+      - data_cleaning.qmd
     - id: classification
       title: "Classification"
       contents:

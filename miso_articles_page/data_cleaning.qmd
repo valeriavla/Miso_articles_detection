@@ -10,7 +10,6 @@ Right now the dataset is unuseble because there are way to many "noises" in our 
 Here are the data cleaning process step by step:
 
 - Import necessary libraries and packages
-
 ```{python}
 import pandas as pd
 import numpy as np

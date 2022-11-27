@@ -102,7 +102,7 @@
     "href": "data.html",
     "title": "Data Obtention and Processing",
     "section": "",
-    "text": "Data collection:\nData labeling:\nData cleaning:\nData modeling:"
+    "text": "Data collection\nData labeling\nData cleaning\nData modeling"
   },
   {
     "objectID": "index.html#classification",
@@ -110,5 +110,33 @@
     "title": "Revictimization: a misogyny detection problem",
     "section": "Classification:",
     "text": "Classification:\nMultiple data sets with tweets in Spanish, posted on México, and labeled had been gathered, creating a balanced data set of 10,000 tweets. A small dataset of articles will be manually-labeled to fine-tune a BERT model with the tweets dataset and evaluate its performance by classifying news articles."
+  },
+  {
+    "objectID": "data_collection.html",
+    "href": "data_collection.html",
+    "title": "Data collection",
+    "section": "",
+    "text": "This work’s main objective is to classify news articles content and label it as misogynystic or not. However, no dataset contains such information; thus, a manual process must be performed to gather all information.\nManual obtention and labeling lead to a small amount of data, which is not helpful for models that require big datasets to be trained on, such as neural networks.\nSince there are multiple datasets containing tweets in Spanish labeled as misogynistic or not, we will solve the problem by utilizing such data to train models and analyze if those are useful for detecting revictimization."
+  },
+  {
+    "objectID": "data_collection.html#tweets-collection",
+    "href": "data_collection.html#tweets-collection",
+    "title": "Data collection",
+    "section": "Tweets collection",
+    "text": "Tweets collection\nDifferent datasets collected and labeled through multiple works were gathered to have a 10,000 tweets dataset."
+  },
+  {
+    "objectID": "data_collection.html#news-articles-collection",
+    "href": "data_collection.html#news-articles-collection",
+    "title": "Data collection",
+    "section": "News articles collection",
+    "text": "News articles collection\nMaria Salguero is a Mexican activist who has collected multiple femicides articles published in Mexico. To have a bast dataset, her set of almost 8 thousand news and a new collection performed through this work with @X news, will be labeled."
+  },
+  {
+    "objectID": "data_labeling.html",
+    "href": "data_labeling.html",
+    "title": "Data labeling",
+    "section": "",
+    "text": "The process of labeling and training won’t be linear. A small set of news will be manually labeled, and the classifier will be tested with them to evaluate its performance, helping to automatically classify the rest of the articles and retrain and evaluate the model."
   }
 ]

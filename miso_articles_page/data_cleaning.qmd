@@ -1,6 +1,10 @@
 ---
+<<<<<<< HEAD
 title: " Data cleaning:"
 
+=======
+title: "Data cleaning"
+>>>>>>> 80866c0 (updated webpage)
 ---
 
 We have our original dataset labeled_set.csv with 2 columns, "text" and "label", "text" column is the tweets we have gathered, and value 0 and 1 in "label" column represent the non misogynistic tweet and misogynistic tweet respetively. 

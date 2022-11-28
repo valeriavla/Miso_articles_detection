@@ -1,12 +1,7 @@
 ---
-<<<<<<< HEAD
-title: " Data cleaning:"
-
-=======
 title: "Data cleaning"
->>>>>>> 80866c0 (updated webpage)
 ---
-
+## Tweets cleaning
 We have our original dataset labeled_set.csv with 2 columns, "text" and "label", "text" column is the tweets we have gathered, and value 0 and 1 in "label" column represent the non misogynistic tweet and misogynistic tweet respetively. 
 
 Right now the dataset is unuseble because there are way to many "noises" in our dataset, i.e. there are a lot of special characters, emojis, and website links in our text data, so we need to clean (remove) these "noises" before doing further analysis.

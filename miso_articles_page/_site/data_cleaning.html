@@ -20,6 +20,69 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1.6em;
   vertical-align: middle;
 }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
 
@@ -58,6 +121,9 @@ ul.task-list li input[type="checkbox"] {
     "search-submit-button-title": "Submit"
   }
 }</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
 
 
 <link rel="stylesheet" href="styles.css">
@@ -163,7 +229,13 @@ ul.task-list li input[type="checkbox"] {
 </nav>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#tweets-cleaning" id="toc-tweets-cleaning" class="nav-link active" data-scroll-target="#tweets-cleaning">Tweets cleaning</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -184,8 +256,578 @@ ul.task-list li input[type="checkbox"] {
 
 </header>
 
+<section id="tweets-cleaning" class="level2">
+<h2 class="anchored" data-anchor-id="tweets-cleaning">Tweets cleaning</h2>
+<p>We have our original dataset labeled_set.csv with 2 columns, “text” and “label”, “text” column is the tweets we have gathered, and value 0 and 1 in “label” column represent the non misogynistic tweet and misogynistic tweet respetively.</p>
+<p>Right now the dataset is unuseble because there are way to many “noises” in our dataset, i.e.&nbsp;there are a lot of special characters, emojis, and website links in our text data, so we need to clean (remove) these “noises” before doing further analysis.</p>
+<p>Here are the data cleaning process step by step:</p>
+<ul>
+<li>Import necessary libraries and packages</li>
+</ul>
+<div class="cell" data-execution_count="1">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> nltk<span class="op">;</span> </span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>nltk.download(<span class="st">'punkt'</span>)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>nltk.download(<span class="st">'averaged_perceptron_tagger'</span>)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>nltk.download(<span class="st">'wordnet'</span>)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>nltk.download(<span class="st">'stopwords'</span>)</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="op">%</span>matplotlib inline  </span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> nltk</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> nltk <span class="im">import</span> word_tokenize, sent_tokenize</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> nltk.corpus <span class="im">import</span> stopwords</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> nltk.stem <span class="im">import</span> LancasterStemmer, WordNetLemmatizer, PorterStemmer</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> wordcloud <span class="im">import</span> WordCloud, STOPWORDS</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> textblob <span class="im">import</span> TextBlob</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> nltk.sentiment <span class="im">import</span> SentimentIntensityAnalyzer</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>[nltk_data] Downloading package punkt to
+[nltk_data]     C:\Users\valer\AppData\Roaming\nltk_data...
+[nltk_data]   Package punkt is already up-to-date!
+[nltk_data] Downloading package averaged_perceptron_tagger to
+[nltk_data]     C:\Users\valer\AppData\Roaming\nltk_data...
+[nltk_data]   Package averaged_perceptron_tagger is already up-to-
+[nltk_data]       date!
+[nltk_data] Downloading package wordnet to
+[nltk_data]     C:\Users\valer\AppData\Roaming\nltk_data...
+[nltk_data]   Package wordnet is already up-to-date!
+[nltk_data] Downloading package stopwords to
+[nltk_data]     C:\Users\valer\AppData\Roaming\nltk_data...
+[nltk_data]   Package stopwords is already up-to-date!</code></pre>
+</div>
+</div>
+<ul>
+<li>Load the original dataset</li>
+</ul>
+<div class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>tweets<span class="op">=</span> pd.read_csv(<span class="st">'../code/labeled_set.csv'</span>, encoding <span class="op">=</span> <span class="st">"ISO-8859-1"</span>)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>tweets.head(<span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="2">
+
+<div>
+
+<table class="dataframe table table-sm table-striped">
+  <thead>
+    <tr>
+      <th></th>
+      <th>text</th>
+      <th>label</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>?? no sé si das más pena tú o tu terrible ort...</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Cuando todo se va al infierno, la gente que e...</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>- En 1800 nace #NatTurner, el esclavo rebelde ...</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>entre muchas otras  Muere el 6 de nov 2015 ??...</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>era la maldición de muchas familias.</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>https://t.co/I8JcEowZed #FelizLunes #FelizLun...</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>La rola de #LaLocaDelSenado</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>oh Dios mío!, desde cuando tienen eso ?</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>sexistas y totalmente inadecuados para su eda...</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>- Te ves bien crudo, ¿estuvo bueno el fin? - N...</td>
+      <td>0</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+</div>
+<ul>
+<li>Remove empty space in columns if there is any. Rename the column name and check the data type of each column</li>
+</ul>
+<div class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>tweets.columns <span class="op">=</span> tweets.columns.<span class="bu">str</span>.replace(<span class="st">' '</span>, <span class="st">''</span>)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>tweets.rename(columns<span class="op">=</span>{<span class="st">'text'</span>: <span class="st">'tweets'</span>}, inplace<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>tweets.dtypes</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>tweets.head(<span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="3">
+
+<div>
+
+<table class="dataframe table table-sm table-striped">
+  <thead>
+    <tr>
+      <th></th>
+      <th>tweets</th>
+      <th>label</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>?? no sé si das más pena tú o tu terrible ort...</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Cuando todo se va al infierno, la gente que e...</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>- En 1800 nace #NatTurner, el esclavo rebelde ...</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>entre muchas otras  Muere el 6 de nov 2015 ??...</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>era la maldición de muchas familias.</td>
+      <td>0</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+</div>
+<ul>
+<li>Remove the “noises”</li>
+</ul>
+<div class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>tweets[<span class="st">'tweets'</span>] <span class="op">=</span> tweets[<span class="st">'tweets'</span>].<span class="bu">str</span>.replace(<span class="st">'[^\w\s]'</span>, <span class="st">''</span>) <span class="co"># Remove all special symbols &amp; characters</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>tweets[<span class="st">'tweets'</span>] <span class="op">=</span> tweets[<span class="st">'tweets'</span>].<span class="bu">str</span>.replace(<span class="st">'_'</span>, <span class="st">''</span>) <span class="co"># Remove all underscores</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>tweets[<span class="st">'tweets'</span>] <span class="op">=</span> tweets[<span class="st">'tweets'</span>].<span class="bu">str</span>.replace(<span class="st">'http[^\s]*'</span>,<span class="st">""</span>) <span class="co"># Remove all words that start with "http"</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>tweets[<span class="st">'tweets'</span>] <span class="op">=</span> tweets[<span class="st">'tweets'</span>].astype(<span class="bu">str</span>).<span class="bu">str</span>.lower() <span class="co"># Make all words in lower case</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>tweets.head(<span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>C:\Users\valer\AppData\Local\Temp\ipykernel_8264\154057916.py:1: FutureWarning: The default value of regex will change from True to False in a future version.
+  tweets['tweets'] = tweets['tweets'].str.replace('[^\w\s]', '') # Remove all special symbols &amp; characters
+C:\Users\valer\AppData\Local\Temp\ipykernel_8264\154057916.py:3: FutureWarning: The default value of regex will change from True to False in a future version.
+  tweets['tweets'] = tweets['tweets'].str.replace('http[^\s]*',"") # Remove all words that start with "http"</code></pre>
+</div>
+<div class="cell-output cell-output-display" data-execution_count="4">
+
+<div>
+
+<table class="dataframe table table-sm table-striped">
+  <thead>
+    <tr>
+      <th></th>
+      <th>tweets</th>
+      <th>label</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>no sé si das más pena tú o tu terrible ortog...</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>cuando todo se va al infierno la gente que es...</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>en 1800 nace natturner el esclavo rebelde del...</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>entre muchas otras  muere el 6 de nov 2015</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>era la maldición de muchas familias</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>felizlunes felizlunesatodos linux linuxsecur...</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>la rola de lalocadelsenado</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>oh dios mío desde cuando tienen eso</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>sexistas y totalmente inadecuados para su eda...</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>te ves bien crudo estuvo bueno el fin  no es ...</td>
+      <td>0</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+</div>
+<ul>
+<li>Save the clean dataset</li>
+</ul>
+<div class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># tweets.to_csv('cleaned_tweets.csv')</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="co"># tweets.to_html('cleaned_tweets.html', classes='table table-stripped')</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li><p>Now we have the clean dataset so we can do some further analysis and some EDA.</p></li>
+<li><p>Tokenization</p></li>
+</ul>
+<div class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> nltk.tokenize <span class="im">import</span> RegexpTokenizer</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>regexp <span class="op">=</span> RegexpTokenizer(<span class="st">'\w+'</span>)</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>tweets[<span class="st">'tweets_token'</span>]<span class="op">=</span>tweets[<span class="st">'tweets'</span>].<span class="bu">apply</span>(regexp.tokenize)</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>tweets.head(<span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="6">
+
+<div>
+
+<table class="dataframe table table-sm table-striped">
+  <thead>
+    <tr>
+      <th></th>
+      <th>tweets</th>
+      <th>label</th>
+      <th>tweets_token</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>no sé si das más pena tú o tu terrible ortog...</td>
+      <td>0</td>
+      <td>[no, sé, si, das, más, pena, tú, o, tu, terrib...</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>cuando todo se va al infierno la gente que es...</td>
+      <td>0</td>
+      <td>[cuando, todo, se, va, al, infierno, la, gente...</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>en 1800 nace natturner el esclavo rebelde del...</td>
+      <td>0</td>
+      <td>[en, 1800, nace, natturner, el, esclavo, rebel...</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>entre muchas otras  muere el 6 de nov 2015</td>
+      <td>0</td>
+      <td>[entre, muchas, otras, muere, el, 6, de, nov, ...</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>era la maldición de muchas familias</td>
+      <td>0</td>
+      <td>[era, la, maldición, de, muchas, familias]</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>felizlunes felizlunesatodos linux linuxsecur...</td>
+      <td>0</td>
+      <td>[felizlunes, felizlunesatodos, linux, linuxsec...</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>la rola de lalocadelsenado</td>
+      <td>0</td>
+      <td>[la, rola, de, lalocadelsenado]</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>oh dios mío desde cuando tienen eso</td>
+      <td>0</td>
+      <td>[oh, dios, mío, desde, cuando, tienen, eso]</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>sexistas y totalmente inadecuados para su eda...</td>
+      <td>0</td>
+      <td>[sexistas, y, totalmente, inadecuados, para, s...</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>te ves bien crudo estuvo bueno el fin  no es ...</td>
+      <td>0</td>
+      <td>[te, ves, bien, crudo, estuvo, bueno, el, fin,...</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+</div>
+<ul>
+<li>Remove infrequent words. We first change the format of tweets_token to strings and keep only words which are no shorter than 2 letters</li>
+</ul>
+<div class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>tweets[<span class="st">'tweets_string'</span>] <span class="op">=</span> tweets[<span class="st">'tweets_token'</span>].<span class="bu">apply</span>(<span class="kw">lambda</span> x: <span class="st">' '</span>.join([item <span class="cf">for</span> item <span class="kw">in</span> x <span class="cf">if</span> <span class="bu">len</span>(item)<span class="op">&gt;=</span><span class="dv">2</span>]))</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>tweets.head(<span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="7">
+
+<div>
+
+<table class="dataframe table table-sm table-striped">
+  <thead>
+    <tr>
+      <th></th>
+      <th>tweets</th>
+      <th>label</th>
+      <th>tweets_token</th>
+      <th>tweets_string</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>no sé si das más pena tú o tu terrible ortog...</td>
+      <td>0</td>
+      <td>[no, sé, si, das, más, pena, tú, o, tu, terrib...</td>
+      <td>no sé si das más pena tú tu terrible ortografí...</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>cuando todo se va al infierno la gente que es...</td>
+      <td>0</td>
+      <td>[cuando, todo, se, va, al, infierno, la, gente...</td>
+      <td>cuando todo se va al infierno la gente que est...</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>en 1800 nace natturner el esclavo rebelde del...</td>
+      <td>0</td>
+      <td>[en, 1800, nace, natturner, el, esclavo, rebel...</td>
+      <td>en 1800 nace natturner el esclavo rebelde del ...</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>entre muchas otras  muere el 6 de nov 2015</td>
+      <td>0</td>
+      <td>[entre, muchas, otras, muere, el, 6, de, nov, ...</td>
+      <td>entre muchas otras muere el de nov 2015</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>era la maldición de muchas familias</td>
+      <td>0</td>
+      <td>[era, la, maldición, de, muchas, familias]</td>
+      <td>era la maldición de muchas familias</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>felizlunes felizlunesatodos linux linuxsecur...</td>
+      <td>0</td>
+      <td>[felizlunes, felizlunesatodos, linux, linuxsec...</td>
+      <td>felizlunes felizlunesatodos linux linuxsecurit...</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>la rola de lalocadelsenado</td>
+      <td>0</td>
+      <td>[la, rola, de, lalocadelsenado]</td>
+      <td>la rola de lalocadelsenado</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>oh dios mío desde cuando tienen eso</td>
+      <td>0</td>
+      <td>[oh, dios, mío, desde, cuando, tienen, eso]</td>
+      <td>oh dios mío desde cuando tienen eso</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>sexistas y totalmente inadecuados para su eda...</td>
+      <td>0</td>
+      <td>[sexistas, y, totalmente, inadecuados, para, s...</td>
+      <td>sexistas totalmente inadecuados para su edad e...</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>te ves bien crudo estuvo bueno el fin  no es ...</td>
+      <td>0</td>
+      <td>[te, ves, bien, crudo, estuvo, bueno, el, fin,...</td>
+      <td>te ves bien crudo estuvo bueno el fin no es qu...</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+</div>
+<ul>
+<li>Create a list of all words</li>
+</ul>
+<div class="cell" data-execution_count="8">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>all_words <span class="op">=</span> <span class="st">' '</span>.join([word <span class="cf">for</span> word <span class="kw">in</span> tweets[<span class="st">'tweets_string'</span>]])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li>Tokenize all_words</li>
+</ul>
+<div class="cell" data-execution_count="9">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>tokenized_words <span class="op">=</span> nltk.tokenize.word_tokenize(all_words)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li>Create a frequency distribution which records the number of times each word has occurred:</li>
+</ul>
+<div class="cell" data-execution_count="10">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> nltk.probability <span class="im">import</span> FreqDist</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>fdist <span class="op">=</span> FreqDist(tokenized_words)</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>fdist</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="10">
+<pre><code>FreqDist({'que': 5199, 'la': 4773, 'de': 4715, 'no': 3236, 'el': 2861, 'es': 2462, 'en': 1967, 'una': 1720, 'las': 1680, 'se': 1599, ...})</code></pre>
+</div>
+</div>
+<ul>
+<li>Now we can use our fdist dictionary to drop words which occur less than a certain amount of times (usually we use a value of 3 or 4).</li>
+</ul>
+<div class="cell" data-execution_count="11">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>tweets[<span class="st">'tweets_string_fdist'</span>] <span class="op">=</span> tweets[<span class="st">'tweets_token'</span>].<span class="bu">apply</span>(<span class="kw">lambda</span> x: <span class="st">' '</span>.join([item <span class="cf">for</span> item <span class="kw">in</span> x <span class="cf">if</span> fdist[item] <span class="op">&gt;=</span> <span class="dv">4</span> ]))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li>Lemmatization</li>
+</ul>
+<div class="cell" data-execution_count="12">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>nltk.download(<span class="st">'wordnet'</span>)</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>nltk.download(<span class="st">'omw-1.4'</span>)</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> nltk.stem <span class="im">import</span> WordNetLemmatizer</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>wordnet_lem <span class="op">=</span> WordNetLemmatizer()</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>tweets[<span class="st">'tweets_string_lem'</span>] <span class="op">=</span> tweets[<span class="st">'tweets_string_fdist'</span>].<span class="bu">apply</span>(wordnet_lem.lemmatize)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>[nltk_data] Downloading package wordnet to
+[nltk_data]     C:\Users\valer\AppData\Roaming\nltk_data...
+[nltk_data]   Package wordnet is already up-to-date!
+[nltk_data] Downloading package omw-1.4 to
+[nltk_data]     C:\Users\valer\AppData\Roaming\nltk_data...
+[nltk_data]   Package omw-1.4 is already up-to-date!</code></pre>
+</div>
+</div>
+<ul>
+<li>Check if the columns are equal so we might not need to do the lemmatization</li>
+</ul>
+<div class="cell" data-execution_count="13">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>tweets[<span class="st">'is_equal'</span>]<span class="op">=</span> (tweets[<span class="st">'tweets_string_fdist'</span>]<span class="op">==</span>tweets[<span class="st">'tweets_string_lem'</span>])</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>tweets.is_equal.value_counts()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="13">
+<pre><code>True     10025
+False        4
+Name: is_equal, dtype: int64</code></pre>
+</div>
+</div>
+<ul>
+<li>Let’s create a word cloud to see what are the most frequent words</li>
+</ul>
+<div class="cell" data-execution_count="14">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>all_words_lem <span class="op">=</span> <span class="st">' '</span>.join([word <span class="cf">for</span> word <span class="kw">in</span> tweets[<span class="st">'tweets_string_lem'</span>]])</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="op">%</span>matplotlib inline</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> wordcloud <span class="im">import</span> WordCloud</span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>wordcloud <span class="op">=</span> WordCloud(width<span class="op">=</span><span class="dv">600</span>, </span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>                     height<span class="op">=</span><span class="dv">400</span>, </span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>                     random_state<span class="op">=</span><span class="dv">2</span>, </span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>                     max_font_size<span class="op">=</span><span class="dv">100</span>).generate(all_words_lem)</span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">7</span>))</span>
+<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a>plt.imshow(wordcloud, interpolation<span class="op">=</span><span class="st">'bilinear'</span>)</span>
+<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a>plt.axis(<span class="st">'off'</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<p><img src="data_cleaning_files/figure-html/cell-15-output-1.png" width="763" height="515"></p>
+</div>
+</div>
+<ul>
+<li>Frequency distributions</li>
+</ul>
+<div class="cell" data-execution_count="15">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>nltk.download(<span class="st">'punkt'</span>)</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> nltk.tokenize <span class="im">import</span> word_tokenize</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> nltk.probability <span class="im">import</span> FreqDist</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>words <span class="op">=</span> nltk.word_tokenize(all_words_lem)</span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>fd <span class="op">=</span> FreqDist(words)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>[nltk_data] Downloading package punkt to
+[nltk_data]     C:\Users\valer\AppData\Roaming\nltk_data...
+[nltk_data]   Package punkt is already up-to-date!</code></pre>
+</div>
+</div>
+<ul>
+<li>We can list the top 15 most frequent words</li>
+</ul>
+<div class="cell" data-execution_count="16">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>fd.most_common(<span class="dv">15</span>)</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>fd.tabulate(<span class="dv">15</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> que   la   de   no   el   es   en  una  las   se  los   me   un   lo  por 
+5199 4776 4715 3236 2861 2462 1967 1720 1677 1599 1488 1357 1322 1258 1167 </code></pre>
+</div>
+</div>
+<ul>
+<li>Now we can make a plot of the most frequent words</li>
+</ul>
+<div class="cell" data-execution_count="17">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>top_30 <span class="op">=</span> fd.most_common(<span class="dv">30</span>)</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Create pandas series to make plotting easier</span></span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>fdist <span class="op">=</span> pd.Series(<span class="bu">dict</span>(top_30))</span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>sns.set_theme(style<span class="op">=</span><span class="st">"ticks"</span>)</span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>tweets_top30_word_barplot <span class="op">=</span> sns.barplot(y<span class="op">=</span>fdist.index, x<span class="op">=</span>fdist.values, color<span class="op">=</span><span class="st">'pink'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<p><img src="data_cleaning_files/figure-html/cell-18-output-1.png" width="605" height="415"></p>
+</div>
+</div>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

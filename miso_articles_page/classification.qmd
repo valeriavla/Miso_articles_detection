@@ -1,9 +1,15 @@
 ---
-title: "Classification"
+title: "Model and Classification"
 ---
 
-In terms of classification this work will experiment on:
+## Data Modelling
+
+The data was modelled in two different approaches to test multiple classifiers. First a bag of words modelling and secondly through different BERT neural networks implementation. 
+
+## Classification
+
+This work will experiment on:
 
 - Training a supervised classifier trained with a labeled set of tweets to predict if a tweet is misogynistic or not. Test the classifier with a set of tweets not used for training and test it with a small set of new articles to evaluate its precision. The objective is to find out if training models with tweets can be useful for different text entries.
 
-- In terms of models, as a baseline a NB model will be implemented to compare the results using BERT.
+- In terms of models, as a baseline a NB model using Bag of Words modelling will be implemented to compare the results using different pretrained BERT models.

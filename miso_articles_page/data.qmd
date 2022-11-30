@@ -1,5 +1,5 @@
 ---
-title: "Data Obtention and Processing"
+title: "Data"
 ---
 
 The project is work in progress, the implementation Data will be sectioned into:

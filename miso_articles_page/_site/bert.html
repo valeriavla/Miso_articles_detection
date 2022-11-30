@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.1.251">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Revictimization: a misogyny detection problem - BERT</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="nav-sidebar floating nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a class="navbar-brand" href="./index.html">
+    <span class="navbar-title">Revictimization: a misogyny detection problem</span>
+    </a>
+  </div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="./index.html">Home</a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./about.html">Authors</a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./repository.html">Repository</a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-data" role="button" data-bs-toggle="dropdown" aria-expanded="false">Data</a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-data">    
+        <li>
+    <a class="dropdown-item" href="./data.html">
+ <span class="dropdown-text">Data</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./data_collection.html">
+ <span class="dropdown-text">Data collection</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./data_labeling.html">
+ <span class="dropdown-text">Data labeling</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./data_cleaning.html">
+ <span class="dropdown-text">Data cleaning</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-model-and-classification" role="button" data-bs-toggle="dropdown" aria-expanded="false">Model and Classification</a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-model-and-classification">    
+        <li>
+    <a class="dropdown-item" href="./classification.html">
+ <span class="dropdown-text">Model and Classification</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./nb.html">
+ <span class="dropdown-text">Naive Bayes</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./bert.html">
+ <span class="dropdown-text">BERT</span></a>
+  </li>  
+    </ul>
+  </li>
+</ul>
+              <div id="quarto-search" class="" title="Search"></div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+    <div class="container-fluid d-flex justify-content-between">
+      <h1 class="quarto-secondary-nav-title">BERT</h1>
+      <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
+        <i class="bi bi-chevron-right"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation floating overflow-auto">
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./classification.html" class="sidebar-item-text sidebar-link">Model and Classification</a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./nb.html" class="sidebar-item-text sidebar-link">Naive Bayes</a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./bert.html" class="sidebar-item-text sidebar-link active">BERT</a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#overview" id="toc-overview" class="nav-link active" data-scroll-target="#overview">Overview</a></li>
+  <li><a href="#implementation" id="toc-implementation" class="nav-link" data-scroll-target="#implementation">implementation</a>
+  <ul class="collapse">
+  <li><a href="#bert-from-scratch" id="toc-bert-from-scratch" class="nav-link" data-scroll-target="#bert-from-scratch">BERT from scratch</a></li>
+  <li><a href="#pysentimiento-robertuito-prediction" id="toc-pysentimiento-robertuito-prediction" class="nav-link" data-scroll-target="#pysentimiento-robertuito-prediction">PySentimiento (roBERTuito) prediction</a></li>
+  <li><a href="#fine-tuning-pysentimiento-robertuito" id="toc-fine-tuning-pysentimiento-robertuito" class="nav-link" data-scroll-target="#fine-tuning-pysentimiento-robertuito">fine-tuning PySentimiento (roBERTuito)</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title d-none d-lg-block">BERT</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+    
+  </div>
+  
+
+</header>
+
+<section id="overview" class="level2">
+<h2 class="anchored" data-anchor-id="overview">Overview</h2>
+<p>Bidirectional Encoder Representations from Transformers or BERT was developed at Google in 2018 and it is a Machine Learning model used for NLP tasks.</p>
+</section>
+<section id="implementation" class="level2">
+<h2 class="anchored" data-anchor-id="implementation">implementation</h2>
+<p>This work implements BERT through the Hugging Face’s Transformers library. which provides pre-trained models to perform tasks on texts. A pre-trained model has been previously trained on a considerably large dataset and saved for prediction or fine-tuning.</p>
+<p>The experiments are performed training BERT from scratch and predicting and fine-tuning mutiple pre-trained models.</p>
+<pre><code>!pip install transformers
+!pip install pysentimiento
+
+from transformers import AutoTokenizer, AutoModelForSequenceClassification
+tokenizer = AutoTokenizer.from_pretrained("pysentimiento/robertuito-sentiment-analysis")
+import pandas as pd
+import numpy as np
+</code></pre>
+<p>First we will experiment with the pretrained models without fine-tuning too measure the accuracy of different models with our tweets dataset that was cleaned previously.</p>
+<div class="cell" data-execution_count="1">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>tweets <span class="op">=</span> pd.read_csv(<span class="st">'../code/cleaned_tweets.csv'</span>)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(tweets.head())</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> check_balance(df):</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(df.label.value_counts())</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>check_balance(tweets)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   Unnamed: 0                                             tweets  label
+0           0    no sé si das más pena tú o tu terrible ortog...      0
+1           1   cuando todo se va al infierno la gente que es...      0
+2           2   en 1800 nace natturner el esclavo rebelde del...      0
+3           3       entre muchas otras  muere el 6 de nov 2015        0
+4           4                era la maldición de muchas familias      0
+0    5017
+1    5012
+Name: label, dtype: int64</code></pre>
+</div>
+</div>
+<section id="bert-from-scratch" class="level3">
+<h3 class="anchored" data-anchor-id="bert-from-scratch">BERT from scratch</h3>
+<p>First we will start by training a BERT architecture trained only with our tweets set</p>
+<pre><code>from sklearn.model_selection import train_test_split
+from transformers import BertTokenizer, TFBertForSequenceClassification
+from transformers import InputExample, InputFeatures
+import tensorflow as tf
+
+model = TFBertForSequenceClassification.from_pretrained("bert-base-uncased")
+tokenizer = BertTokenizer.from_pretrained("bert-base-uncased")
+
+model.summary()
+
+X_train, X_test= train_test_split(tweets, test_size=0.20, random_state=42)
+
+def convert_data_to_examples(train, test): 
+  train_InputExamples = train.apply(lambda x: InputExample(guid=None, # Globally unique ID for bookkeeping, unused in this case
+                                                          text_a = x["tweets"], 
+                                                          text_b = None,
+                                                          label = x["label"]), axis = 1)
+
+  validation_InputExamples = test.apply(lambda x: InputExample(guid=None, # Globally unique ID for bookkeeping, unused in this case
+                                                          text_a = x["tweets"], 
+                                                          text_b = None,
+                                                          label = x["label"]), axis = 1)
+
+  return train_InputExamples, validation_InputExamples
+
+  
+def convert_examples_to_tf_dataset(examples, tokenizer, max_length=128):
+    features = [] # -&gt; will hold InputFeatures to be converted later
+
+    for e in examples:
+        # Documentation is really strong for this method, so please take a look at it
+        input_dict = tokenizer.encode_plus(
+            e.text_a,
+            add_special_tokens=True,
+            max_length=max_length, # truncates if len(s) &gt; max_length
+            return_token_type_ids=True,
+            return_attention_mask=True,
+            pad_to_max_length=True, # pads to the right by default # CHECK THIS for pad_to_max_length
+            truncation=True
+        )
+
+        input_ids, token_type_ids, attention_mask = (input_dict["input_ids"],
+            input_dict["token_type_ids"], input_dict['attention_mask'])
+
+        features.append(
+            InputFeatures(
+                input_ids=input_ids, attention_mask=attention_mask, token_type_ids=token_type_ids, label=e.label
+            )
+        )
+
+    def gen():
+        for f in features:
+            yield (
+                {
+                    "input_ids": f.input_ids,
+                    "attention_mask": f.attention_mask,
+                    "token_type_ids": f.token_type_ids,
+                },
+                f.label,
+            )
+
+    return tf.data.Dataset.from_generator(
+        gen,
+        ({"input_ids": tf.int32, "attention_mask": tf.int32, "token_type_ids": tf.int32}, tf.int64),
+        (
+            {
+                "input_ids": tf.TensorShape([None]),
+                "attention_mask": tf.TensorShape([None]),
+                "token_type_ids": tf.TensorShape([None]),
+            },
+            tf.TensorShape([]),
+        ),
+    )
+
+
+DATA_COLUMN = 'DATA_COLUMN'
+LABEL_COLUMN = 'LABEL_COLUMN'
+InputExample(guid=None,
+             text_a = "Hello, world",
+             text_b = None,
+             label = 1)
+
+train_InputExamples, validation_InputExamples = convert_data_to_examples(X_train, X_test)
+
+train_data = convert_examples_to_tf_dataset(list(train_InputExamples), tokenizer)
+train_data = train_data.shuffle(100).batch(32).repeat(2)
+
+validation_data = convert_examples_to_tf_dataset(list(validation_InputExamples), tokenizer)
+validation_data = validation_data.batch(32)
+
+
+model.compile(optimizer=tf.keras.optimizers.Adam(learning_rate=3e-5, epsilon=1e-08, clipnorm=1.0), 
+              loss=tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True), 
+              metrics=[tf.keras.metrics.SparseCategoricalAccuracy('accuracy')])
+
+model.fit(train_data, epochs=2, validation_data=validation_data)</code></pre>
+<p>Testing with many epochs</p>
+<pre><code># k = 5
+model.fit(train_data, epochs=2, validation_data=validation_data)
+</code></pre>
+</section>
+<section id="pysentimiento-robertuito-prediction" class="level3">
+<h3 class="anchored" data-anchor-id="pysentimiento-robertuito-prediction">PySentimiento (roBERTuito) prediction</h3>
+<p>Afterwards, we will use the “PySentimiento” model which is a RoBERTuito model, a pre-trained model with ~5k tweets of several dialects of Spanish. Based on RoBERTa model trained in Spanish tweets.</p>
+<p>RoBERTuito had an F1-score of 0.759 ± 0.007 in a hate speech detection task improving from RoBERTa by .01 thus we will experiment how good it is predicting our data set without fine-tuning.</p>
+<pre><code>from pysentimiento import create_analyzer
+hate_speech_analyzer = create_analyzer(task="hate_speech", lang="es")
+</code></pre>
+<p>We will select a random set of tweets to evaluate certain examples with PySentimiento.</p>
+<pre><code>import random
+
+art_nums = [random.randint(0, len(tweets["tweets"])-1) for a in range(5)]
+
+for x in art_nums:
+  print(tweets["tweets"][x])
+  print(hate_speech_analyzer.predict(tweets["tweets"][x]))
+
+#compare all predictions with our labels, check the ones that differ obtain the accuracy of the model with our dataset</code></pre>
+<p>Some of them match our label and actually had a “correct” balance of hateful or aggresive values, but some others were not. It is important to remember this model was defined for hate-speech and not misogyny detection.</p>
+<p>We also want to evaluate how the model predicts revictimization.</p>
+<pre><code>#example of the classification of a note
+article='La Fiscalía lamenta la muerte de Mara Fernanda Castilla, indicó que a través de las investigaciones realizadas establecieron que la víctima fue privada de la vida por su agresor e indicaron que posiblemente fue asesinada en un motel de Puebla. El gobierno del estado de Puebla ofreció sus condolencias para que los culpables sean sancionados con los máximos que permita la ley. PUBLICIDAD Tras una denuncia que presentaron los padres de Mara Fernanda tras no ser localizada luego de haber tomado un servicio de Cabify, autoridades realizaron las diligencias necesarias. La Fiscalía indicó que el conductor se presentó a declarar, quien manifestó que Mara sí había tomado el transporte sin embargo indicó que pero que la joven había solicitado bajar de la unidad en un punto cercano a su domicilio sobre las misma calle. Una vez confrontada la declaración de Ricardo "N", autoridades establecieron inconsistencias en los hechos, por lo que ordenaron su detención por caso emergente, mismo que se realizó el martes 12 en Tlaxcala, en su recidencia. Tras el análisis de telefonía de Ricardo y Mara, autoridades indicaron que ambos estuvieron en los mismos lugares después la desaparición de esta última, incluyendo el domicilio de sospechoso en el estado de Tlaxcala. El sospechoso trasladó a la estudiante al motel de la 11 Sur y 105 Poniente, llamado "Motel del Sur", antes hizo una parada para comprar cigarros. Ingresó a la habitación 25 a las 6:47 de la mañana y salió a 8:15 horas. Lugar donde se reportó el faltante de una sábana y una toalla, elementos con los que fue encontrada envuelta la víctima. Al salir de motel, Ricardo tomó Periférico con dirección a la autopista México-Puebla, retornó en un punto y se dirigió a la junta auxiliar de Santa María Xonacatepec, para luego regresar a la ciudad a realizar otras actividades. Aunque Ricardo "N" se presentó el domingo 9 de septiembre a declarar ante el Ministerio Público sobre la desaparición de Mara, fue el rastreo a su celular lo que permitió revelar que él asesinó a la joven. PUBLICIDAD Al solicitar a la compañía telefónica Telcel, el registro de llamadas y datos de los celulares tanto de Ricardo como de Mara Fernanda, descubrieron que hubo actividad los días 8, 9 y 12 (cuando se le aprehendió al hoy inculpado) en el municipio de Santa Úrsula Zimatepec. A pesar de que los dos teléfonos estuvieron juntos desde el viernes 8 de septiembre, cuando Ricardo se presentó a declarar por voluntad propia, nunca mencionó que en su poder tenía el celular de la joven, acotó en determinado momento la Fiscalía. Este viernes, justo a siete días de su desaparición, el cadáver de Mara Fernanda fue hallado en un lote baldío alrededor de las 13 horas, por lo que el conductor de Cabify está siendo procesado por el delito de feminicidio. El titular de la Fiscalía General del Estado, Víctor Carrancá Bourguet, dijo que se le practicarán exámenes científicos al cuerpo de Mara Fernanda para determinar si hubo violación, así como las causas y determinar el día de su muerte, que hasta el momento son inciertas. Así desapareció Mara, estudiante de UPAEP que viajaba en Cabify 1.- Jueves 7 de septiembre Mara Fernanda acude por la tarde-noche con unos amigos al corredor de antros de la 14 Oriente en San Andrés Cholula. 2.- Alrededor de las 5 de la madrugada del viernes 8, pide el servicio de un taxi de la empresa privada Cabify. 3.- Minutos después llega por ella, afuera del antro “Bronx”, Ricardo Alexis, en un automóvil gris, marca Chevrolet, tipo Sonic, con placas UAY-(XXXX) de Puebla 4.- De acuerdo a la plataforma de la empresa de transporte privado, el recorrido hasta el lugar de destino fue de 44 minutos con 6 segundos, de Cholula al fraccionamiento Torres de Mayorazgo, al sur de la ciudad, sitio al que llegó a las 05:48 horas. 5.- Se sabe que las cámaras del fraccionamiento detectaron la llegada del taxi, a la hora mencionada, pero tras permanecer alrededor de media hora detenido, nunca se apreció que descendiera la joven. 6.- Al pasar las horas y no saber nada de la universitaria, sus familiares y conocidos comenzaron una intensa campaña de búsqueda en redes sociales; asimismo acudieron a la Fiscalía a presentar la denuncia correspondiente. 7.- El domingo, de acuerdo a la empresa Cabify, el chofer Ricardo Alexis acudió voluntariamente a la Fiscalía para declarar sobre lo que sabía. Se dice que manifestó haber escuchado que Mara se puso de acuerdo con alguien más para verse, pero no se dieron más detalles. 8.- El lunes por la tarde, la Fiscalía en su cuenta de twitter posteó un mensaje en el que indicaba que seguían las investigaciones. 9.- Ayer a las 13 horas, agentes estatales de investigación de Puebla, en coordinación con sus pares de la Procuraduría General de Justicia de Tlaxcala, aprehendieron en el municipio de Terrenate, a Ricardo Alexis, por su probable participación en el delito de privación ilegal de la libertad. 10.- El 15 de septiembre, un juez le dictó prisión preventiva a el conductor de Cabify. 11.- El 15 de septiembre a las 13 horas apareció el cadáver de la joven, tras siete días de intensa búsqueda.'
+print(hate_speech_analyzer.predict(article))
+article_title = 'Amigas que abandonaron a Debanhi dan su versión de los hechos… Vodka, discusiones y mordidas que desencadenaron en la muerte de la joven'
+print(hate_speech_analyzer.predict(article_title))</code></pre>
+<p>By testing on a revictimizing article and a revictimizing article’s title neither of them were classified as hateful, targeted or aggressive. It is true those are not hateful or aggressive but we expected a higher value on the targeted.</p>
+<p>We want to test the overall results on our articles set.</p>
+<pre><code>#testing accuracy of the model with our articles</code></pre>
+</section>
+<section id="fine-tuning-pysentimiento-robertuito" class="level3">
+<h3 class="anchored" data-anchor-id="fine-tuning-pysentimiento-robertuito">fine-tuning PySentimiento (roBERTuito)</h3>
+<p>fine-tuning roBERTuito for sentiment analysis with our tweets set</p>
+<pre><code>model = TFBertForSequenceClassification.from_pretrained("pysentimiento/robertuito-sentiment-analysis")
+tokenizer = AutoTokenizer.from_pretrained("pysentimiento/robertuito-sentiment-analysis")
+
+model.compile(optimizer=tf.keras.optimizers.Adam(learning_rate=3e-5, epsilon=1e-08, clipnorm=1.0), 
+              loss=tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True), 
+              metrics=[tf.keras.metrics.SparseCategoricalAccuracy('accuracy')])
+model.fit(train_data, epochs=2, validation_data=validation_data)</code></pre>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    setTimeout(function() {
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>

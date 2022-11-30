@@ -14,4 +14,44 @@ Different datasets collected and labeled through multiple works were gathered to
 
 ## News articles collection
 
-Maria Salguero is a Mexican activist who has collected multiple femicides articles published in Mexico. To have a bast dataset, her set of almost 8 thousand news and a new collection performed through this work with @X news, will be labeled.
+Maria Salguero is a Mexican activist who has collected multiple femicides articles published in Mexico. To have a bast dataset, her set of almost 8 thousand news and a new collection performed through this work with almost 10,000 news, will be labeled.
+
+## Web scrapping
+
+For the manual collection of this project, an exploration of how to obtain news articles with a high possibility of containing revictimization was performed. One of the essential findings is that most of the revictimizing articles describe "controversial" femicide cases. Unfortunately, most media platforms do not cover issues where little information is given. 
+
+The article search was performed with a list of victims' names, and a web scrapping script was developed to collect the news content.
+
+```{python}
+import pandas as pd
+from bs4 import BeautifulSoup
+import requests
+
+art_0 =["https://www.infobae.com/america/mexico/2022/01/01/la-brutal-realidad-de-los-feminicidios-en-mexico-mas-de-10-mujeres-fueron-asesinadas-al-dia-en-2021/","https://www.infobae.com/america/mexico/2021/12/27/mas-de-10-mujeres-asesinadas-al-dia-durante-el-2021-en-mexico/"]
+
+art_1 =["https://www.elsoldemexico.com.mx/republica/justicia/mara-habria-sido-asesinada-en-un-motel-de-puebla-fiscalia-254334.html","https://primeravueltanoticias.com/la-otra-version-mara-fue-asesinada-por-su-novio-millonario/"]
+arts_content =[]
+arts_label =[]
+
+art_dict = {0:art_0,
+1:art_1}
+
+for label, art_list in art_dict.items():
+    for art in art_list:
+        try:
+            r = requests.get(art)
+            print(r)
+        except:
+            print("not able to connect")
+            break
+        soup = BeautifulSoup(r.content, 'html.parser')
+        soup.prettify()
+        content = soup.find_all('p')
+        content_text = [x.text for x in content]
+        arts_content.append(''.join(content_text))
+        arts_label.append(label)
+
+articles_labeled = pd.DataFrame(data = [arts_content,arts_label])
+
+articles_labeled.T.head(3)
+```

@@ -2,8 +2,8 @@
 title: "Authors"
 ---
 
-## Josh Gladwell
-
-## Weiye Zhu <wz250@georgetown.edu>
+## Josh Gladwell <jeg307@georgetown.edu>
 
 ## Valeria Vera Lagos <vv188@georgetown.edu>
+
+## Weiye Zhu <wz250@georgetown.edu>

@@ -1,0 +1,207 @@
+---
+title: "BERT"
+---
+
+## Overview
+
+Bidirectional Encoder Representations from Transformers or BERT was developed at Google in 2018 and it is a Machine Learning model used for NLP tasks.
+
+## Implementation 
+
+This work implements BERT through the Hugging Face’s Transformers library. which provides pre-trained models to perform tasks on texts. A pre-trained model has been previously trained on a considerably large dataset and saved for prediction or fine-tuning.
+
+The experiments are performed training BERT from scratch and predicting and fine-tuning mutiple pre-trained models.
+
+```
+!pip install transformers
+!pip install pysentimiento
+
+from transformers import AutoTokenizer, AutoModelForSequenceClassification
+tokenizer = AutoTokenizer.from_pretrained("pysentimiento/robertuito-sentiment-analysis")
+import pandas as pd
+import numpy as np
+
+```
+First we will experiment with the pretrained models without fine-tuning too measure the accuracy of different models with our tweets dataset that was cleaned previously.
+
+```{python}
+import pandas as pd
+tweets = pd.read_csv('../code/cleaned_tweets.csv')
+print(tweets.head())
+
+def check_balance(df):
+    print(df.label.value_counts())
+    
+check_balance(tweets)
+```
+
+### BERT from scratch
+First we will start by training a BERT architecture trained only with our tweets set
+
+```
+from sklearn.model_selection import train_test_split
+from transformers import BertTokenizer, TFBertForSequenceClassification
+from transformers import InputExample, InputFeatures
+import tensorflow as tf
+
+model = TFBertForSequenceClassification.from_pretrained("bert-base-uncased")
+tokenizer = BertTokenizer.from_pretrained("bert-base-uncased")
+
+model.summary()
+
+X_train, X_test= train_test_split(tweets, test_size=0.20, random_state=42)
+
+def convert_data_to_examples(train, test): 
+  train_InputExamples = train.apply(lambda x: InputExample(guid=None, # Globally unique ID for bookkeeping, unused in this case
+                                                          text_a = x["tweets"], 
+                                                          text_b = None,
+                                                          label = x["label"]), axis = 1)
+
+  validation_InputExamples = test.apply(lambda x: InputExample(guid=None, # Globally unique ID for bookkeeping, unused in this case
+                                                          text_a = x["tweets"], 
+                                                          text_b = None,
+                                                          label = x["label"]), axis = 1)
+
+  return train_InputExamples, validation_InputExamples
+
+  
+def convert_examples_to_tf_dataset(examples, tokenizer, max_length=128):
+    features = [] # -> will hold InputFeatures to be converted later
+
+    for e in examples:
+        # Documentation is really strong for this method, so please take a look at it
+        input_dict = tokenizer.encode_plus(
+            e.text_a,
+            add_special_tokens=True,
+            max_length=max_length, # truncates if len(s) > max_length
+            return_token_type_ids=True,
+            return_attention_mask=True,
+            pad_to_max_length=True, # pads to the right by default # CHECK THIS for pad_to_max_length
+            truncation=True
+        )
+
+        input_ids, token_type_ids, attention_mask = (input_dict["input_ids"],
+            input_dict["token_type_ids"], input_dict['attention_mask'])
+
+        features.append(
+            InputFeatures(
+                input_ids=input_ids, attention_mask=attention_mask, token_type_ids=token_type_ids, label=e.label
+            )
+        )
+
+    def gen():
+        for f in features:
+            yield (
+                {
+                    "input_ids": f.input_ids,
+                    "attention_mask": f.attention_mask,
+                    "token_type_ids": f.token_type_ids,
+                },
+                f.label,
+            )
+
+    return tf.data.Dataset.from_generator(
+        gen,
+        ({"input_ids": tf.int32, "attention_mask": tf.int32, "token_type_ids": tf.int32}, tf.int64),
+        (
+            {
+                "input_ids": tf.TensorShape([None]),
+                "attention_mask": tf.TensorShape([None]),
+                "token_type_ids": tf.TensorShape([None]),
+            },
+            tf.TensorShape([]),
+        ),
+    )
+
+
+DATA_COLUMN = 'DATA_COLUMN'
+LABEL_COLUMN = 'LABEL_COLUMN'
+InputExample(guid=None,
+             text_a = "Hello, world",
+             text_b = None,
+             label = 1)
+
+train_InputExamples, validation_InputExamples = convert_data_to_examples(X_train, X_test)
+
+train_data = convert_examples_to_tf_dataset(list(train_InputExamples), tokenizer)
+train_data = train_data.shuffle(100).batch(32).repeat(2)
+
+validation_data = convert_examples_to_tf_dataset(list(validation_InputExamples), tokenizer)
+validation_data = validation_data.batch(32)
+
+
+model.compile(optimizer=tf.keras.optimizers.Adam(learning_rate=3e-5, epsilon=1e-08, clipnorm=1.0), 
+              loss=tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True), 
+              metrics=[tf.keras.metrics.SparseCategoricalAccuracy('accuracy')])
+
+model.fit(train_data, epochs=2, validation_data=validation_data)
+```
+
+Testing with many epochs 
+
+```
+# k = 5
+model.fit(train_data, epochs=2, validation_data=validation_data)
+
+```
+
+### PySentimiento (roBERTuito) prediction
+
+Afterwards, we will use the "PySentimiento" model which is a RoBERTuito  model, a pre-trained model with ~5k tweets of several dialects of Spanish. Based on RoBERTa model trained in Spanish tweets.
+
+RoBERTuito had an F1-score of 0.759 ± 0.007 in a hate speech detection task improving from RoBERTa by .01 thus we will experiment how good it is predicting our data set without fine-tuning.
+
+```
+from pysentimiento import create_analyzer
+hate_speech_analyzer = create_analyzer(task="hate_speech", lang="es")
+
+```
+
+We will select a random set of tweets to evaluate certain examples with PySentimiento.
+
+```
+import random
+
+art_nums = [random.randint(0, len(tweets["tweets"])-1) for a in range(5)]
+
+for x in art_nums:
+  print(tweets["tweets"][x])
+  print(hate_speech_analyzer.predict(tweets["tweets"][x]))
+
+#compare all predictions with our labels, check the ones that differ obtain the accuracy of the model with our dataset
+```
+
+Some of them match our label and actually had a "correct" balance of hateful or aggresive values, but some others were not. It is important to remember this model was defined for hate-speech and not misogyny detection.
+
+We also want to evaluate how the model predicts revictimization.
+
+
+```
+#example of the classification of a note
+article='La Fiscalía lamenta la muerte de Mara Fernanda Castilla, indicó que a través de las investigaciones realizadas establecieron que la víctima fue privada de la vida por su agresor e indicaron que posiblemente fue asesinada en un motel de Puebla. El gobierno del estado de Puebla ofreció sus condolencias para que los culpables sean sancionados con los máximos que permita la ley. PUBLICIDAD Tras una denuncia que presentaron los padres de Mara Fernanda tras no ser localizada luego de haber tomado un servicio de Cabify, autoridades realizaron las diligencias necesarias. La Fiscalía indicó que el conductor se presentó a declarar, quien manifestó que Mara sí había tomado el transporte sin embargo indicó que pero que la joven había solicitado bajar de la unidad en un punto cercano a su domicilio sobre las misma calle. Una vez confrontada la declaración de Ricardo "N", autoridades establecieron inconsistencias en los hechos, por lo que ordenaron su detención por caso emergente, mismo que se realizó el martes 12 en Tlaxcala, en su recidencia. Tras el análisis de telefonía de Ricardo y Mara, autoridades indicaron que ambos estuvieron en los mismos lugares después la desaparición de esta última, incluyendo el domicilio de sospechoso en el estado de Tlaxcala. El sospechoso trasladó a la estudiante al motel de la 11 Sur y 105 Poniente, llamado "Motel del Sur", antes hizo una parada para comprar cigarros. Ingresó a la habitación 25 a las 6:47 de la mañana y salió a 8:15 horas. Lugar donde se reportó el faltante de una sábana y una toalla, elementos con los que fue encontrada envuelta la víctima. Al salir de motel, Ricardo tomó Periférico con dirección a la autopista México-Puebla, retornó en un punto y se dirigió a la junta auxiliar de Santa María Xonacatepec, para luego regresar a la ciudad a realizar otras actividades. Aunque Ricardo "N" se presentó el domingo 9 de septiembre a declarar ante el Ministerio Público sobre la desaparición de Mara, fue el rastreo a su celular lo que permitió revelar que él asesinó a la joven. PUBLICIDAD Al solicitar a la compañía telefónica Telcel, el registro de llamadas y datos de los celulares tanto de Ricardo como de Mara Fernanda, descubrieron que hubo actividad los días 8, 9 y 12 (cuando se le aprehendió al hoy inculpado) en el municipio de Santa Úrsula Zimatepec. A pesar de que los dos teléfonos estuvieron juntos desde el viernes 8 de septiembre, cuando Ricardo se presentó a declarar por voluntad propia, nunca mencionó que en su poder tenía el celular de la joven, acotó en determinado momento la Fiscalía. Este viernes, justo a siete días de su desaparición, el cadáver de Mara Fernanda fue hallado en un lote baldío alrededor de las 13 horas, por lo que el conductor de Cabify está siendo procesado por el delito de feminicidio. El titular de la Fiscalía General del Estado, Víctor Carrancá Bourguet, dijo que se le practicarán exámenes científicos al cuerpo de Mara Fernanda para determinar si hubo violación, así como las causas y determinar el día de su muerte, que hasta el momento son inciertas. Así desapareció Mara, estudiante de UPAEP que viajaba en Cabify 1.- Jueves 7 de septiembre Mara Fernanda acude por la tarde-noche con unos amigos al corredor de antros de la 14 Oriente en San Andrés Cholula. 2.- Alrededor de las 5 de la madrugada del viernes 8, pide el servicio de un taxi de la empresa privada Cabify. 3.- Minutos después llega por ella, afuera del antro “Bronx”, Ricardo Alexis, en un automóvil gris, marca Chevrolet, tipo Sonic, con placas UAY-(XXXX) de Puebla 4.- De acuerdo a la plataforma de la empresa de transporte privado, el recorrido hasta el lugar de destino fue de 44 minutos con 6 segundos, de Cholula al fraccionamiento Torres de Mayorazgo, al sur de la ciudad, sitio al que llegó a las 05:48 horas. 5.- Se sabe que las cámaras del fraccionamiento detectaron la llegada del taxi, a la hora mencionada, pero tras permanecer alrededor de media hora detenido, nunca se apreció que descendiera la joven. 6.- Al pasar las horas y no saber nada de la universitaria, sus familiares y conocidos comenzaron una intensa campaña de búsqueda en redes sociales; asimismo acudieron a la Fiscalía a presentar la denuncia correspondiente. 7.- El domingo, de acuerdo a la empresa Cabify, el chofer Ricardo Alexis acudió voluntariamente a la Fiscalía para declarar sobre lo que sabía. Se dice que manifestó haber escuchado que Mara se puso de acuerdo con alguien más para verse, pero no se dieron más detalles. 8.- El lunes por la tarde, la Fiscalía en su cuenta de twitter posteó un mensaje en el que indicaba que seguían las investigaciones. 9.- Ayer a las 13 horas, agentes estatales de investigación de Puebla, en coordinación con sus pares de la Procuraduría General de Justicia de Tlaxcala, aprehendieron en el municipio de Terrenate, a Ricardo Alexis, por su probable participación en el delito de privación ilegal de la libertad. 10.- El 15 de septiembre, un juez le dictó prisión preventiva a el conductor de Cabify. 11.- El 15 de septiembre a las 13 horas apareció el cadáver de la joven, tras siete días de intensa búsqueda.'
+print(hate_speech_analyzer.predict(article))
+article_title = 'Amigas que abandonaron a Debanhi dan su versión de los hechos… Vodka, discusiones y mordidas que desencadenaron en la muerte de la joven'
+print(hate_speech_analyzer.predict(article_title))
+```
+
+By testing on a revictimizing article and a revictimizing article's title neither of them were classified as hateful, targeted or aggressive. It is true those are not hateful or aggressive but we expected a higher value on the targeted.
+
+We want to test the overall results on our articles set.
+
+```
+#testing accuracy of the model with our articles
+```
+
+### fine-tuning PySentimiento (roBERTuito)
+
+fine-tuning roBERTuito for sentiment analysis with our tweets set
+
+```
+model = TFBertForSequenceClassification.from_pretrained("pysentimiento/robertuito-sentiment-analysis")
+tokenizer = AutoTokenizer.from_pretrained("pysentimiento/robertuito-sentiment-analysis")
+
+model.compile(optimizer=tf.keras.optimizers.Adam(learning_rate=3e-5, epsilon=1e-08, clipnorm=1.0), 
+              loss=tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True), 
+              metrics=[tf.keras.metrics.SparseCategoricalAccuracy('accuracy')])
+model.fit(train_data, epochs=2, validation_data=validation_data)
+```

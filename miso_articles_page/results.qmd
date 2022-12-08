@@ -1,0 +1,85 @@
+---
+title: "Results"
+---
+
+# Results
+
+Multiple supeprvised classifier were trained with 2 different sets, one of tweets and the other one of news articles, both generated in México.
+
+### Prediction of tweets results
+
+Since the tweets were labeled it was possible to calculate the accuracy of the model by sampling the set into a training and testing set. 
+
+
+| Model                            | Epochs | Accuracy | Loss   | Validated Accuracy | Validated Loss |
+|----------------------------------|--------|----------|--------|--------------------|----------------|
+| bert_uncased (BERT)              | 2      | 0.9227   | 0.1999 | 0.8185             | 0.5404         |
+|                                  | 3      | 0.9919   | 0.0211 | 0.8445             | 0.846          |
+| pysentimiento (roBERTa)          | 2      | 0.9088   | 0.2434 | 0.8066             | 0.5107         |
+|                                  | 3      | 0.9859   | 0.0449 | 0.8166             | 0.9603         |
+| bert_multilingual_uncased (BERT) | 2      | 0.9457   | 0.146  | 0.8445             | 0.5849         |
+|                                  | 3      | 0.9899   | 0.0279 | **0.8634**         | 0.6502         |
+| Naive Bayes                      | -      | 0.8253   | -      | 0.7796             | -              |
+| KNN                              | -      | 0.8606   | -      | 0.6669             | -              |
+
+The results demonstrate how transformers outstand classic models such as Naive Bayes or KNN. After training with a set of almost 8,000 tweets and testing with 2,000 the best accuracy of 86.34% was obtained with BERT multilingual uncased trained with 3 epochs. Followed by BERT uncased with the same number of epochs.
+
+Another interesting result obtained during data exploration is KNN having the best accuracy of 69% with 30 neighbors.
+
+### Prediction of articles results
+
+Furthermore, although the results of article's prediction are shown in the next table, the model's results might not be accurate given the small number of labeled articles (120) to evaluate.
+
+| Model                            | Epochs | Trained on Tweets |        | Trained on Articles |        |
+|----------------------------------|--------|-------------------|--------|---------------------|--------|
+|                                  |        | Accuracy          | Loss   | Accuracy            | Loss   |
+| bert_uncased (BERT)              | 2      | 0.9217            | 0.1998 | 0.911               | 0.319  |
+|                                  | 3      |                   |        | 0.6525              | 0.6171 |
+| pysentimiento (roBERTa)          | 2      | 0.8999            | 0.2516 | 0.589               | 0.6878 |
+|                                  | 3      |                   |        | 0.5805              | 0.6864 |
+| bert_multilingual_uncased (BERT) | 2      | **0.9473**        | 0.1469 | 0.678               | 0.6106 |
+|                                  | 3      |                   |        | **0.9449**          | 0.3233 |
+
+
+The best accuracy for predicting articles was 94.73% after training a bert_multilingual_uncased model with labeled tweets followed by a close result of 94.49% after training the same model with articles and one more epoch.
+
+To have a better understanding of the model's performances we compared the balance of predictions by class:
+
+| model                          | Misogynistic | Non - misogynistic |
+|--------------------------------|--------------|--------------------|
+| bert_uncased trained news      | 6810         | 1120               |
+| pysentimiento fine-tune news   | 6810         | 1120               |
+| bert_multilingual news         | 5335         | 2595               |
+| bert_multilingual tweets       | 7443         | 487                |
+| pysentimiento fine-tune tweets | 7916         | 14                 |
+| bert_uncased trained tweets    | 7448         | 482                |
+
+
+By looking at the balance we can see all models behave in the same way predicting more misogynistic articles than noon-misogynistic. Since those articles are not labeled there is no way to know if the models are overfitted or there are actually more articles that are misogynistic. 
+
+Although the articles might be misogynistic the table shows that the models trained with tweets tend to classify articles into the mentioned class.
+
+Finally, as part of the results an analysis of the predictions with the best model was performed:
+
+| Predicted as misogynistic                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         | Predicted as non-misogynistic                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
+|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| ACAPULCO, Gro., 23 de marzo de 2016.- Dos mujeres fueron asesinadas a balazos y un hombre quedó herido en un tianguis ubicado en el bulevar Vicente Guerrero de este puerto. Los hechos se registraron a las 18:45 horas, cuando hombres dispararon en contra de las mujeres comerciantes, quienes murieron al instante y donde quedó herido el individuo en la calle 1 de la colonia Postal. Una de las víctimas vestía pantalón café, blusa roja y estaba descalza y la otra tenía camiseta verde, pantalón verde con dibujos y tenis blancos. El hombre herido fue trasladado a un hospital para su atención médica inmediata. | Guerrero, México; 10 de mayo 2016.-En pleno día de las madres y en medio de la exigencia por un alto a los feminicidios localizan a una joven dama, descuartizada, y envuelta en una sabana en la colonia 6 de enero del violento Acapulco. Autoridades informaron que fueron alertados sobre la presencia del cadáver mediante una llamada anónimo. Peritos del estado establecieron que cuando llegaron al sitio indicado encontraron envueltos en sabanas, un par de piernas, un par de brazos, un torso femenino y una cabeza, todas las partes humanas pertenecían a la misma fémina, la cual no ha sido identificada. Las partes fueron recolectadas por la autoridad y lo trasladaron al SEMEFO de la ciudad, para realizar la necropsia de ley y esperar a que sea identificada |
+
+
+# Conclusions and Future Work
+
+Through this work, we collected, cleaned, and transformed data from different sources to attack a vital problem occurring in Latin America, revictimization performed by communication platforms. Given the lack of data labeled for this work, the objective was to evaluate the performance of a model trained to detect a particular type of misogyny (misogyny in social media) to classify a different type (revictimization in news articles). 
+
+The results of this work show how BERT outperforms traditional models, although its main disadvantage is the amount of data and computational efficiency needed for training the model. Through this work, we ran and evaluated models on a personal computer, such as Multinomial Naive Bayes and K-nearest Neighbours. Unfortunately,  external resources such as Google Colab pro had to be reached to fine-tune all BERT pre-trained models. Furthermore, running the three pre-trained models in the results sections cost ~100 GPUs (10 USD). The cost of performing this task shows that we are still far from accessible knowledge in the NLP field.
+
+Besides efficiency, the pre-trained models demonstrated high accuracy in predicting the label of both tweets and news articles. For the prediction of both tweets and articles, bert_multilingual_uncased obtained the highest accuracy of 86% and 94% each. As mentioned previously, these values might not be reliable, given the nature of the data. However, as a baseline comparison, we can look at the F1-score displayed in the hugging face library documentation for models such as roBERTA and roBERTuito (pysentimiento), which are 67% and 70.5%  for their sentiment analysis task. We can also assume that our models provide a higher performance because of the fine-tuning with our set. For example, although pysentimiento is trained with tweets in Spanish (which might be close to our tweets set), those contain different dialects in Spanish, increasing the number of features (words) and even semantics of texts that do not align with our data. Finally, after comparing the balance of the predictions of models trained with tweets, we detected that the models were overfitted to the "misogynistic" class. This leads to the assumption that misogyny in tweets or natural conversations is not modeled similarly to revictimization.
+
+Furthermore, an exciting result is a prediction made by multilingual_bert_uncased. The model could detect an example of an article with subtle misogyny. Additionally, it detected an article describing femicide without misogynistic opinions as not misogynistic. The good accuracies and results from the models provide insight into how an automatic classifier can attack the revictimization problem in communication platforms.  
+
+Future work can be performed to:
+
+* Label datasets or evaluate all the generated predictions from this work to continue training more efficient models with labeled data and measure its predictions effectively. 
+
+* Gather information in English to compare the results of misogyny in both languages. 
+
+* Provide a server to our bot to continuously collect information and serve as a guide to detect revictimization.

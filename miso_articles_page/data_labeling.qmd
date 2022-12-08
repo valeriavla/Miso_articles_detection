@@ -1,6 +1,11 @@
 ---
 title: " Data labeling"
 ---
-This work utilizes already labeled tweets to train a model that will mark article news. The main objective is to experiment with the results of different models after training in terms of accuracy, precision, and a deep understanding of how the classifier detects both subtle and apparent misogyny. 
+
+## Introduction:
+
+The objective of the word is to capture the sentiment of the whole article and not a single word or sentence that might be misogynistic. Thus articles previously collected will be classified as a whole misogynistic text even if it only contains one misogynistic sentence
 
 The process of labeling and training won't be linear. A small set of news will be manually labeled, and the classifier will be tested with them to evaluate its performance. This will help to automatically classify the rest of the articles and retrain and evaluate the model.
+
+![Data labeling process](images/diagram.png)

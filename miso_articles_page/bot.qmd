@@ -1,0 +1,9 @@
+---
+title: "Detection Bot"
+---
+
+# Twitter Bot
+
+Providing a platform for a user to interact is a great opportunity to expose the real-life applications of NLP tasks like ours.
+
+<blockquote class="twitter-tweet"><p lang="es" dir="ltr">The linked article (Las cifras de feminicidio en México muestran el alcance de una violencia que no se detiene) does not contain misogynistic sentiments.</p>&mdash; Misogyny Detection Bot (@miso_detection) <a href="https://twitter.com/miso_detection/status/1598083948722106369?ref_src=twsrc%5Etfw">November 30, 2022</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>

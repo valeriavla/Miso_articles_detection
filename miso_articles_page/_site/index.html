@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Revictimization: a misogyny detection problem -</title>
+<title>Revictimization: a misogyny detection problem - Introduction</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -93,7 +93,7 @@ ul.task-list li input[type="checkbox"] {
     <ul class="dropdown-menu" aria-labelledby="nav-menu-data">    
         <li>
     <a class="dropdown-item" href="./data.html">
- <span class="dropdown-text">Data Obtention and Processing</span></a>
+ <span class="dropdown-text">Data</span></a>
   </li>  
         <li>
     <a class="dropdown-item" href="./data_collection.html">
@@ -110,11 +110,11 @@ ul.task-list li input[type="checkbox"] {
     </ul>
   </li>
   <li class="nav-item dropdown ">
-    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-modelling-and-classification" role="button" data-bs-toggle="dropdown" aria-expanded="false">Modelling and Classification</a>
-    <ul class="dropdown-menu" aria-labelledby="nav-menu-modelling-and-classification">    
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-classification" role="button" data-bs-toggle="dropdown" aria-expanded="false">Classification</a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-classification">    
         <li>
     <a class="dropdown-item" href="./classification.html">
- <span class="dropdown-text">Modelling and Classification</span></a>
+ <span class="dropdown-text">Classification</span></a>
   </li>  
         <li>
     <a class="dropdown-item" href="./nb.html">
@@ -122,10 +122,16 @@ ul.task-list li input[type="checkbox"] {
   </li>  
         <li>
     <a class="dropdown-item" href="./bert.html">
- <span class="dropdown-text">Modelling and Classification</span></a>
+ <span class="dropdown-text">BERT</span></a>
   </li>  
     </ul>
   </li>
+  <li class="nav-item">
+    <a class="nav-link" href="./results.html">Results</a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./bot.html">Detection Bot</a>
+  </li>  
 </ul>
               <div id="quarto-search" class="" title="Search"></div>
           </div> <!-- /navcollapse -->
@@ -143,30 +149,36 @@ ul.task-list li input[type="checkbox"] {
   <ul>
   <li><a href="#problem" id="toc-problem" class="nav-link active" data-scroll-target="#problem">Problem</a></li>
   <li><a href="#existing-approaches" id="toc-existing-approaches" class="nav-link" data-scroll-target="#existing-approaches">Existing approaches</a></li>
-  <li><a href="#proposal" id="toc-proposal" class="nav-link" data-scroll-target="#proposal">Proposal</a></li>
-  <li><a href="#methods-to-achieve-the-objective" id="toc-methods-to-achieve-the-objective" class="nav-link" data-scroll-target="#methods-to-achieve-the-objective">Methods to achieve the objective:</a>
+  <li><a href="#proposal" id="toc-proposal" class="nav-link" data-scroll-target="#proposal">Proposal</a>
   <ul class="collapse">
-  <li><a href="#data-collection" id="toc-data-collection" class="nav-link" data-scroll-target="#data-collection">Data collection:</a></li>
-  <li><a href="#data-labeling" id="toc-data-labeling" class="nav-link" data-scroll-target="#data-labeling">Data labeling:</a></li>
-  <li><a href="#data-cleaning" id="toc-data-cleaning" class="nav-link" data-scroll-target="#data-cleaning">Data cleaning:</a></li>
-  <li><a href="#data-modeling" id="toc-data-modeling" class="nav-link" data-scroll-target="#data-modeling">Data modeling:</a></li>
-  <li><a href="#classification" id="toc-classification" class="nav-link" data-scroll-target="#classification">Classification:</a></li>
-  <li><a href="#evaluation-criteria" id="toc-evaluation-criteria" class="nav-link" data-scroll-target="#evaluation-criteria">Evaluation criteria:</a></li>
-  </ul></li>
   <li><a href="#bibliography" id="toc-bibliography" class="nav-link" data-scroll-target="#bibliography">Bibliography</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Introduction</h1>
+</div>
 
+
+
+<div class="quarto-title-meta">
+
+    
+    
+  </div>
+  
+
+</header>
 
 <section id="problem" class="level1">
 <h1>Problem</h1>
-<p>The responsibility of the communication platforms should be to objectively inform the public without attempting to influence their opinions, but so far, the press has been incapable of doing this. For example, Mexican media has stated, in news articles of occurred femicides, comments such as “It was her fault,” “Her parents should have picked her up,” “Surely she set herself on fire,” “Look how she was dressed up that day,” “She might have fallen and bumped her head” [1].</p>
-<p>The media portrays women victims of violence as stigmatized, guilty, untrustworthy, or sexualized. This method of data governance creates a sense of revictimization in the survivors’ or witnesses’ families and fosters another form of violence against women: media violence.</p>
-<p>An analysis done by [2] shows that out of 1,300 reports of violence against women published by more than 20 media platforms from Argentina, 897 revictimized the sufferer women. Such approaches present dangerous interpretive frameworks that justify violent acts, perpetrate a misogynistic and discriminative culture, or even jeopardize judicial investigations.</p>
+<p>The responsibility of the communication platforms should be to objectively inform the public without attempting to influence their opinions, but so far, the press has been incapable of doing this. An analysis done by [2] shows that out of 1,300 reports of violence against women published by more than 20 media platforms from Argentina, 897 revictimized the sufferer women. Such approaches present dangerous interpretive frameworks that justify violent acts, perpetrate a misogynistic and discriminative culture, or even jeopardize judicial investigations.</p>
+<p>Mexican media has also participated in revictimization cases by stating personal opinions in news articles of occurred femicides such as Lesvy Berlín, Debhani Escobar or Ingrid Escamilla cases, just to name a few. Some example of misogynistic opinions in news articles are “It was her fault,” “Her parents should have picked her up,” “Surely she set herself on fire,” “Look how she was dressed up that day,” “She might have fallen and bumped her head” [1]. Through this comments, the media portrays women victims of violence as stigmatized, guilty, untrustworthy, or sexualized. This method of data governance creates a sense of revictimization in the survivors’ or witnesses’ families and fosters another form of violence against women: media violence.</p>
 </section>
 <section id="existing-approaches" class="level1">
 <h1>Existing approaches</h1>
@@ -176,44 +188,15 @@ ul.task-list li input[type="checkbox"] {
 </section>
 <section id="proposal" class="level1">
 <h1>Proposal</h1>
-<p>Train multiple supervised models to classify misogynistic and non-misogynistic texts obtained from news articles from Mexico in Spanish after applying different transforming and modeling techniques to those and analyzing their results. Which will be evaluated in terms of accuracy, precision, and a deep understanding of how the classifier detects both subtle and apparent misogyny.</p>
-</section>
-<section id="methods-to-achieve-the-objective" class="level1">
-<h1>Methods to achieve the objective:</h1>
-<section id="data-collection" class="level2">
-<h2 class="anchored" data-anchor-id="data-collection">Data collection:</h2>
-<p>Maria Salguero is a Mexican activist who has collected multiple femicides articles published in Mexico. Her news and other articles will be manually collected to have a bast dataset.</p>
-</section>
-<section id="data-labeling" class="level2">
-<h2 class="anchored" data-anchor-id="data-labeling">Data labeling:</h2>
-<p>The text from each article will be split into sentences for them to be labeled as “misogynistic” or “non-misogynistic.” The article will be classified as misogynistic if a paragraph contains one misogynistic sentence.</p>
-</section>
-<section id="data-cleaning" class="level2">
-<h2 class="anchored" data-anchor-id="data-cleaning">Data cleaning:</h2>
-<p>The text will be cleaned through the standard NLP cleaning task, such as punctuation, numbers, hypertext and stop-words removals, and lowercase transformation for all characters.</p>
-<p>Based on the state-of-the-art results, lemmatization and stemming techniques have not improved the performance of sentiment classification in texts in Spanish; thus, multiple sets will be generated to test the effects of those techniques.</p>
-</section>
-<section id="data-modeling" class="level2">
-<h2 class="anchored" data-anchor-id="data-modeling">Data modeling:</h2>
-<p>Different word modeling techniques that have shown exemplary performance in Sentiment Analysis will be implemented. The work aims to do an exploratory analysis of word modeling techniques results for misogyny detection in news articles that revictimize women.</p>
-<p>To do so, representations that lose semantic representation, such as BoW, will be implemented with techniques to solve problems, i.e., TF-IDF. Models that preserve semantic representation will also be tested, such as BERT and Word2Vec.</p>
-</section>
-<section id="classification" class="level2">
-<h2 class="anchored" data-anchor-id="classification">Classification:</h2>
-<p>Multiple data sets with tweets in Spanish, posted on México, and labeled had been gathered, creating a balanced data set of 10,000 tweets. A small dataset of articles will be manually-labeled to fine-tune a BERT model with the tweets dataset and evaluate its performance by classifying news articles.</p>
-</section>
-<section id="evaluation-criteria" class="level2">
-<h2 class="anchored" data-anchor-id="evaluation-criteria">Evaluation criteria:</h2>
-<p>Since we have labeled data, results will be evaluated in terms of accuracy, precision, and a deep understanding of how the classifier is detecting both subtle and apparent misogyny by testing it with text examples labeled as “subtle” and “clear” misogyny.</p>
-</section>
-</section>
-<section id="bibliography" class="level1">
-<h1>Bibliography</h1>
+<p>The objective of this work is to train multiple supervised models to classify misogynistic and non-misogynistic texts obtained from news articles from Mexico in Spanish and analyzing their results. Which will be evaluated in terms of accuracy, precision, and a deep understanding of how the classifier detects both subtle and apparent misogyny.</p>
+<section id="bibliography" class="level2">
+<h2 class="anchored" data-anchor-id="bibliography">Bibliography</h2>
 <p>[1] “Fue su culpa: por qué es vital evitar la revictimización en los casos de feminicidio” https://www.infobae.com/america/mexico/2022/09/05/fue-su-culpa-por-que-es-vital-evitar-la-revictimizacion-en-los-casos-de-feminicidio/</p>
 <p>[2] “Medios revictimizantes”. Palacios, Claudia, https://www.eltiempo.com/opinion/columnistas/claudia-palacios/medios-revictimizantes-observatorio-de-medios-y-genero-149406</p>
 <p>[3] Chen, a. W. Global journal of advanced engineering technologies and sciences sentiment analysis of news articles and its comments: A Natural Language Processing Application, http://gjaets.com/Issues%20PDF/Archive-2018/May-2018/3.pdf</p>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->

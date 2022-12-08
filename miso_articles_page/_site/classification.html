@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Revictimization: a misogyny detection problem - Model and Classification</title>
+<title>Revictimization: a misogyny detection problem - Classification</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -110,11 +110,11 @@ ul.task-list li input[type="checkbox"] {
     </ul>
   </li>
   <li class="nav-item dropdown ">
-    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-model-and-classification" role="button" data-bs-toggle="dropdown" aria-expanded="false">Model and Classification</a>
-    <ul class="dropdown-menu" aria-labelledby="nav-menu-model-and-classification">    
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-classification" role="button" data-bs-toggle="dropdown" aria-expanded="false">Classification</a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-classification">    
         <li>
     <a class="dropdown-item" href="./classification.html">
- <span class="dropdown-text">Model and Classification</span></a>
+ <span class="dropdown-text">Classification</span></a>
   </li>  
         <li>
     <a class="dropdown-item" href="./nb.html">
@@ -126,6 +126,12 @@ ul.task-list li input[type="checkbox"] {
   </li>  
     </ul>
   </li>
+  <li class="nav-item">
+    <a class="nav-link" href="./results.html">Results</a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./bot.html">Detection Bot</a>
+  </li>  
 </ul>
               <div id="quarto-search" class="" title="Search"></div>
           </div> <!-- /navcollapse -->
@@ -133,7 +139,7 @@ ul.task-list li input[type="checkbox"] {
     </nav>
   <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
     <div class="container-fluid d-flex justify-content-between">
-      <h1 class="quarto-secondary-nav-title">Model and Classification</h1>
+      <h1 class="quarto-secondary-nav-title">Classification</h1>
       <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
         <i class="bi bi-chevron-right"></i>
       </button>
@@ -148,7 +154,7 @@ ul.task-list li input[type="checkbox"] {
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./classification.html" class="sidebar-item-text sidebar-link active">Model and Classification</a>
+  <a href="./classification.html" class="sidebar-item-text sidebar-link active">Classification</a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -170,7 +176,7 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#data-modelling" id="toc-data-modelling" class="nav-link active" data-scroll-target="#data-modelling">Data Modelling</a></li>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a></li>
   <li><a href="#classification" id="toc-classification" class="nav-link" data-scroll-target="#classification">Classification</a></li>
   </ul>
 </nav>
@@ -180,7 +186,7 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title d-none d-lg-block">Model and Classification</h1>
+<h1 class="title d-none d-lg-block">Classification</h1>
 </div>
 
 
@@ -194,16 +200,16 @@ ul.task-list li input[type="checkbox"] {
 
 </header>
 
-<section id="data-modelling" class="level2">
-<h2 class="anchored" data-anchor-id="data-modelling">Data Modelling</h2>
-<p>The data was modelled in two different approaches to test multiple classifiers. First a bag of words modelling and secondly through different BERT neural networks implementation.</p>
+<section id="introduction" class="level2">
+<h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
+<p>The data was modelled in two different approaches to test multiple classifiers. First a bag of words modelling and secondly through different BERT transformers implementation.</p>
 </section>
 <section id="classification" class="level2">
 <h2 class="anchored" data-anchor-id="classification">Classification</h2>
 <p>This work will experiment on:</p>
 <ul>
-<li><p>Training a supervised classifier trained with a labeled set of tweets to predict if a tweet is misogynistic or not. Test the classifier with a set of tweets not used for training and test it with a small set of new articles to evaluate its precision. The objective is to find out if training models with tweets can be useful for different text entries.</p></li>
-<li><p>In terms of models, as a baseline a NB model using Bag of Words modelling will be implemented to compare the results using different pretrained BERT models.</p></li>
+<li><p>Training a supervised classifier with a labeled set of tweets to predict if a tweet is misogynistic or not. Test the classifier with a set of tweets not used for training and test it with a small set of new articles to evaluate its precision. The objective is to find out if training models with tweets can be useful for different text entries.</p></li>
+<li><p>In terms of models, as a baseline a NB model using Bag of Words modelling will be implemented to compare its results with the ones obtained through fine-tuning different pretrained BERT models.</p></li>
 </ul>
 
 

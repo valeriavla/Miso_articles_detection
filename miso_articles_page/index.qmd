@@ -1,15 +1,15 @@
 ---
-title: ""
+title: "Introduction"
 ---
 
 # Problem
-The responsibility of the communication platforms should be to objectively inform the public without attempting to influence their opinions, but so far, the press has been incapable of doing this. For example, Mexican media has stated, in news articles of occurred femicides, comments such as "It was her fault," "Her parents should have picked her up," "Surely she set herself on fire," "Look how she was dressed up that day," "She might have fallen and bumped her head"  [1].  
 
-The media portrays women victims of violence as stigmatized, guilty, untrustworthy, or sexualized. This method of data governance creates a sense of revictimization in the survivors' or witnesses' families and fosters another form of violence against women: media violence.
+The responsibility of the communication platforms should be to objectively inform the public without attempting to influence their opinions, but so far, the press has been incapable of doing this. An analysis done by [2] shows that out of 1,300 reports of violence against women published by more than 20 media platforms from Argentina, 897 revictimized the sufferer women. Such approaches present dangerous interpretive frameworks that justify violent acts, perpetrate a misogynistic and discriminative culture, or even jeopardize judicial investigations.
 
-An analysis done by [2] shows that out of 1,300 reports of violence against women published by more than 20 media platforms from Argentina, 897 revictimized the sufferer women. Such approaches present dangerous interpretive frameworks that justify violent acts, perpetrate a misogynistic and discriminative culture, or even jeopardize judicial investigations. 
+Mexican media has also participated in revictimization cases by stating personal opinions in news articles of occurred femicides such as Lesvy Berlín, Debhani Escobar or Ingrid Escamilla cases, just to name a few. Some example of misogynistic opinions in news articles are "It was her fault," "Her parents should have picked her up," "Surely she set herself on fire," "Look how she was dressed up that day," "She might have fallen and bumped her head"  [1]. Through this comments, the media portrays women victims of violence as stigmatized, guilty, untrustworthy, or sexualized. This method of data governance creates a sense of revictimization in the survivors' or witnesses' families and fosters another form of violence against women: media violence.
 
 # Existing approaches
+
 Automatic detection of misogyny is a complex Sentiment Analysis task. It is difficult to distinguish it from sexist or aggressive language towards women, given that it can be subtle and dependent on the social context where it takes place. 
 
 Only now, most of the analyses of this problem are focused on English texts, and the small amount of Spanish texts research needs to distinguish the text origin between Spanish-spoken countries. Therefore, cultural and linguistic differences can complicate the classification. Additionally, multiple approaches have generated data sets of tweets in Spanish labeled as misogynistic or not. However, those reduce the misogynistic detection to short texts since tweets can only hold 280 characters.
@@ -17,35 +17,10 @@ Only now, most of the analyses of this problem are focused on English texts, and
 Finally, Sentiment Analysis detection of news articles has been performed in the past [3], focusing on "negative" or "positive" sentiment. However, no detection of misogyny in news articles has been performed in any language.
 
 # Proposal
-Train multiple supervised models to classify misogynistic and non-misogynistic texts obtained from news articles from Mexico in Spanish after applying different transforming and modeling techniques to those and analyzing their results. Which will be evaluated in terms of accuracy, precision, and a deep understanding of how the classifier detects both subtle and apparent misogyny.
 
-# Methods to achieve the objective:
+The objective of this work is to train multiple supervised models to classify misogynistic and non-misogynistic texts obtained from news articles from Mexico in Spanish and analyzing their results. Which will be evaluated in terms of accuracy, precision, and a deep understanding of how the classifier detects both subtle and apparent misogyny.
 
-## Data collection: 
-Maria Salguero is a Mexican activist who has collected multiple femicides articles published in Mexico. Her news and other articles will be manually collected to have a bast dataset. 
- 
-## Data labeling:
-The text from each article will be split into sentences for them to be labeled as "misogynistic" or "non-misogynistic." The article will be classified as misogynistic if a paragraph contains one misogynistic sentence.
- 
-## Data cleaning:
-The text will be cleaned through the standard NLP cleaning task, such as punctuation, numbers, hypertext and stop-words removals, and lowercase transformation for all characters.
- 
-Based on the state-of-the-art results, lemmatization and stemming techniques have not improved the performance of sentiment classification in texts in Spanish; thus, multiple sets will be generated to test the effects of those techniques. 
- 
-## Data modeling:
-Different word modeling techniques that have shown exemplary performance in Sentiment Analysis will be implemented. The work aims to do an exploratory analysis of word modeling techniques results for misogyny detection in news articles that revictimize women.
- 
-To do so, representations that lose semantic representation, such as BoW, will be implemented with techniques to solve problems, i.e., TF-IDF. Models that preserve semantic representation will also be tested, such as BERT and Word2Vec.
- 
-## Classification:
-Multiple data sets with tweets in Spanish, posted on México, and labeled had been gathered, creating a balanced data set of 10,000 tweets. A small dataset of articles will be manually-labeled to fine-tune a BERT model with the tweets dataset and evaluate its performance by classifying news articles.
- 
-## Evaluation criteria:
-Since we have labeled data, results will be evaluated in terms of accuracy, precision, and a deep understanding of how the classifier is detecting both subtle and apparent misogyny by testing it with text examples labeled as "subtle" and "clear" misogyny.
- 
-
-
-# Bibliography
+## Bibliography
 [1] “Fue su culpa: por qué es vital evitar la revictimización en los casos de feminicidio” https://www.infobae.com/america/mexico/2022/09/05/fue-su-culpa-por-que-es-vital-evitar-la-revictimizacion-en-los-casos-de-feminicidio/ 
 
 [2] “Medios revictimizantes”. Palacios, Claudia, https://www.eltiempo.com/opinion/columnistas/claudia-palacios/medios-revictimizantes-observatorio-de-medios-y-genero-149406

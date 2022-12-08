@@ -1,6 +1,11 @@
 ---
 title: "Data cleaning"
 ---
+
+## Implementation
+The text will be cleaned through the standard NLP cleaning task, such as punctuation, numbers, hypertext and stop-words removals, and lowercase transformation for all characters. Based on the state-of-the-art results, lemmatization and stemming techniques have not improved the performance of sentiment classification in texts in Spanish; thus, multiple sets will be generated to test the effects of those techniques. 
+
+
 ## Tweets cleaning
 We have our original dataset labeled_set.csv with 2 columns, "text" and "label", "text" column is the tweets we have gathered, and value 0 and 1 in "label" column represent the non misogynistic tweet and misogynistic tweet respetively. 
 

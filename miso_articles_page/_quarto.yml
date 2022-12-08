@@ -11,6 +11,8 @@ website:
       - repository.qmd
       - sidebar:data
       - sidebar:classification
+      - results.qmd
+      - bot.qmd
   sidebar:
     - id: data
       title: "Data"
@@ -20,7 +22,7 @@ website:
       - data_labeling.qmd
       - data_cleaning.qmd
     - id: classification
-      title: "Model and Classification"
+      title: "Classification"
       contents:
       - classification.qmd
       - nb.qmd

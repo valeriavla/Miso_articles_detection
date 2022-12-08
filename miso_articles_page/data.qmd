@@ -2,12 +2,6 @@
 title: "Data"
 ---
 
-The project is work in progress, the implementation Data will be sectioned into:
+Nowadays no work has ever collected news articles to label them as misogynistic or revictimizing. Manually labeling is a complex task thus this work will try to take advantage of already labeled sets such as tweets to evaluate the accuracy of models predicting revictimization after being trained with tweets.
 
-- Data collection
- 
-- Data labeling
- 
-- Data cleaning
-
-- Data modeling
+Data processes for both the tweets and the news articles are section into data collection, labeling and cleaning.

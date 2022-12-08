@@ -176,11 +176,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     </ul>
   </li>
   <li class="nav-item dropdown ">
-    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-modelling-and-classification" role="button" data-bs-toggle="dropdown" aria-expanded="false">Modelling and Classification</a>
-    <ul class="dropdown-menu" aria-labelledby="nav-menu-modelling-and-classification">    
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-classification" role="button" data-bs-toggle="dropdown" aria-expanded="false">Classification</a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-classification">    
         <li>
     <a class="dropdown-item" href="./classification.html">
- <span class="dropdown-text">Modelling and Classification</span></a>
+ <span class="dropdown-text">Classification</span></a>
   </li>  
         <li>
     <a class="dropdown-item" href="./nb.html">
@@ -188,10 +188,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   </li>  
         <li>
     <a class="dropdown-item" href="./bert.html">
- <span class="dropdown-text">Modelling and Classification</span></a>
+ <span class="dropdown-text">BERT</span></a>
   </li>  
     </ul>
   </li>
+  <li class="nav-item">
+    <a class="nav-link" href="./results.html">Results</a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./bot.html">Detection Bot</a>
+  </li>  
 </ul>
               <div id="quarto-search" class="" title="Search"></div>
           </div> <!-- /navcollapse -->
@@ -241,9 +247,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#tweets-collection" id="toc-tweets-collection" class="nav-link active" data-scroll-target="#tweets-collection">Tweets collection</a></li>
-  <li><a href="#news-articles-collection" id="toc-news-articles-collection" class="nav-link" data-scroll-target="#news-articles-collection">News articles collection</a></li>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a></li>
+  <li><a href="#collection" id="toc-collection" class="nav-link" data-scroll-target="#collection">Collection</a>
+  <ul class="collapse">
+  <li><a href="#tweets-collection" id="toc-tweets-collection" class="nav-link" data-scroll-target="#tweets-collection">Tweets collection</a></li>
+  <li><a href="#news-articles-collection" id="toc-news-articles-collection" class="nav-link" data-scroll-target="#news-articles-collection">News articles collection</a>
+  <ul class="collapse">
   <li><a href="#web-scrapping" id="toc-web-scrapping" class="nav-link" data-scroll-target="#web-scrapping">Web scrapping</a></li>
+  </ul></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -266,19 +278,21 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 </header>
 
-<p>This work’s main objective is to classify news articles content and label it as misogynystic or not. However, no dataset contains such information; thus, a manual process must be performed to gather all information.</p>
-<p>Manual obtention and labeling lead to a small amount of data, which is not helpful for models that require big datasets to be trained on, such as neural networks.</p>
-<p>Since there are multiple datasets containing tweets in Spanish labeled as misogynistic or not, we will solve the problem by utilizing such data to train models and analyze if those are useful for detecting revictimization.</p>
+<section id="introduction" class="level1">
+<h1>Introduction</h1>
+<p>As mentioned in previous tasks the objective for data collection was to obtein as much tweets in spanish from México labeled as misogynistic or not. On the other hand we were also looking for news articles related to femicides.</p>
+</section>
+<section id="collection" class="level1">
+<h1>Collection</h1>
 <section id="tweets-collection" class="level2">
 <h2 class="anchored" data-anchor-id="tweets-collection">Tweets collection</h2>
-<p>Different datasets collected and labeled through multiple works were gathered to have a 10,000 tweets dataset.</p>
+<p>Different datasets were collected from authors of previous works related to misogyny collection. Furthermore, in this work the collection of tweets through tweepy python API was also performed. For those tweets collected in this work around 3 thousand tweets were labeled to finally have a 10,000 labeled tweets balanced between misogynistic or not.</p>
 </section>
 <section id="news-articles-collection" class="level2">
 <h2 class="anchored" data-anchor-id="news-articles-collection">News articles collection</h2>
-<p>Maria Salguero is a Mexican activist who has collected multiple femicides articles published in Mexico. To have a bast dataset, her set of almost 8 thousand news and a new collection performed through this work with almost 10,000 news, will be labeled.</p>
-</section>
-<section id="web-scrapping" class="level2">
-<h2 class="anchored" data-anchor-id="web-scrapping">Web scrapping</h2>
+<p>Maria Salguero is a Mexican activist who has collected multiple femicides articles published in Mexico. To have a bast dataset, her set of non-labeled news were collected. In addition, through this work web scrapping was implemented to collect more news articles of femicides in México, out of those collected around 200 were manually labeled making a total dataset of 8,000 articles.</p>
+<section id="web-scrapping" class="level3">
+<h3 class="anchored" data-anchor-id="web-scrapping">Web scrapping</h3>
 <p>For the manual collection of this project, an exploration of how to obtain news articles with a high possibility of containing revictimization was performed. One of the essential findings is that most of the revictimizing articles describe “controversial” femicide cases. Unfortunately, most media platforms do not cover issues where little information is given.</p>
 <p>The article search was performed with a list of victims’ names, and a web scrapping script was developed to collect the news content.</p>
 <div class="cell" data-execution_count="1">
@@ -360,6 +374,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 
 
+</section>
+</section>
 </section>
 
 </main> <!-- /main -->

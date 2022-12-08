@@ -110,11 +110,11 @@ ul.task-list li input[type="checkbox"] {
     </ul>
   </li>
   <li class="nav-item dropdown ">
-    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-modelling-and-classification" role="button" data-bs-toggle="dropdown" aria-expanded="false">Modelling and Classification</a>
-    <ul class="dropdown-menu" aria-labelledby="nav-menu-modelling-and-classification">    
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-classification" role="button" data-bs-toggle="dropdown" aria-expanded="false">Classification</a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-classification">    
         <li>
     <a class="dropdown-item" href="./classification.html">
- <span class="dropdown-text">Modelling and Classification</span></a>
+ <span class="dropdown-text">Classification</span></a>
   </li>  
         <li>
     <a class="dropdown-item" href="./nb.html">
@@ -122,10 +122,16 @@ ul.task-list li input[type="checkbox"] {
   </li>  
         <li>
     <a class="dropdown-item" href="./bert.html">
- <span class="dropdown-text">Modelling and Classification</span></a>
+ <span class="dropdown-text">BERT</span></a>
   </li>  
     </ul>
   </li>
+  <li class="nav-item">
+    <a class="nav-link" href="./results.html">Results</a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./bot.html">Detection Bot</a>
+  </li>  
 </ul>
               <div id="quarto-search" class="" title="Search"></div>
           </div> <!-- /navcollapse -->
@@ -171,7 +177,13 @@ ul.task-list li input[type="checkbox"] {
 </nav>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction:</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -192,10 +204,19 @@ ul.task-list li input[type="checkbox"] {
 
 </header>
 
-<p>This work utilizes already labeled tweets to train a model that will mark article news. The main objective is to experiment with the results of different models after training in terms of accuracy, precision, and a deep understanding of how the classifier detects both subtle and apparent misogyny.</p>
+<section id="introduction" class="level2">
+<h2 class="anchored" data-anchor-id="introduction">Introduction:</h2>
+<p>The objective of the word is to capture the sentiment of the whole article and not a single word or sentence that might be misogynistic. Thus articles previously collected will be classified as a whole misogynistic text even if it only contains one misogynistic sentence</p>
 <p>The process of labeling and training won’t be linear. A small set of news will be manually labeled, and the classifier will be tested with them to evaluate its performance. This will help to automatically classify the rest of the articles and retrain and evaluate the model.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/diagram.png" class="img-fluid figure-img"></p>
+<p></p><figcaption class="figure-caption">Data labeling process</figcaption><p></p>
+</figure>
+</div>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

@@ -5,12 +5,12 @@ The responsibility of the communication platforms should be to objectively infor
 
 ## Proposal
 
-Train multiple supervised models to classify misogynistic and non-misogynistic texts obtained from news articles from Mexico in Spanish after applying different transforming and modeling techniques to those and analyzing their results. Which will be evaluated in terms of accuracy, precision, and a deep understanding of how the classifier detects both subtle and apparent misogyny.
+Fine-tune transformers and train supervised models to classify misogynistic and non-misogynistic texts obtained from news articles from Mexico in Spanish after applying different transforming and modeling techniques to those and analyzing their results. Which will be evaluated in terms of accuracy, precision, and a deep understanding of how the classifier detects both subtle and apparent misogyny.
 
 ## Website
 
-For further information of the implementation please visit: https://valeriavl.georgetown.domains/miso_articles/
+For further information of the implementation please visit the next [website](https://valeriavl.georgetown.domains/miso_articles/)
 
 ## Slides
 
-For visual information of the problem and proposal please visit: https://www.canva.com/design/DAFTK3ikq3A/S6g3IkeiRV7cT91KAANEsg/view?utm_content=DAFTK3ikq3A&utm_campaign=designshare&utm_medium=link&utm_source=publishsharelink
+For visual information of the problem and proposal please review the next [slides](https://www.canva.com/design/DAFTK3ikq3A/S6g3IkeiRV7cT91KAANEsg/view?utm_content=DAFTK3ikq3A&utm_campaign=designshare&utm_medium=link&utm_source=publishsharelink)
